@@ -1,6 +1,10 @@
 
 import { createSignal, For, Show, Component } from "solid-js";
 import { createTodoListsStore, TaskStatus } from "./store.ts";
+import EditableListTitle from "./components/EditableListTitle";
+import ListSelector from "./components/ListSelector";
+
+import TodoItem from "./components/TodoItem.jsx";
 
 const store = createTodoListsStore();
 
@@ -28,12 +32,12 @@ const Todos: Component = () => {
     }
   };
 
-  const currentList = () => store.lists.find(l => l.id === store.selectedListId());
   const filteredTasks = () => {
-    if (!currentList()) return [];
-    if (taskFilter() === "all") return currentList()!.tasks;
-    return currentList()!.tasks.filter(t => t.status === taskFilter());
+    if (!store.currentList()) return [];
+    if (taskFilter() === "all") return store.currentList()!.tasks;
+    return store.currentList()!.tasks.filter(t => t.status === taskFilter());
   };
+  console.log("Current List:", store.selectedListId(), store.currentList());
 
   return (
     <div class="p-4">
@@ -48,26 +52,11 @@ const Todos: Component = () => {
         />
         <button class="bg-blue-500 text-white px-2 py-1 rounded">Add List</button>
       </form>
-      <div class="mb-4">
-        <For each={store.lists}>{list => (
-          <div class="flex items-center gap-2 mb-1">
-            <button
-              class={`px-2 py-1 rounded ${store.selectedListId() === list.id ? "bg-blue-200" : "bg-gray-100"}`}
-              onClick={() => store.selectList(list.id)}
-              aria-label={`Select list ${list.name}`}
-            >{list.name}</button>
-            <button
-              class="text-red-500"
-              onClick={() => store.deleteList(list.id)}
-              aria-label={`Delete list ${list.name}`}
-            >x</button>
-          </div>
-        )}</For>
-      </div>
+      <ListSelector selectedListId={store.selectedListId} lists={store.lists} selectList={store.selectList} />
 
-      <Show when={currentList()}>
-  <h3 class="text-lg font-semibold mb-2">Tasks in "{currentList()!.name}"</h3>
-  <form onSubmit={handleAddTask} class="mb-2 flex gap-2">
+      <Show when={store.currentList()}>
+        {/* <EditableListTitle list={store.currentList()!} store={store} /> */}
+        <form onSubmit={handleAddTask} class="mb-2 flex gap-2">
           <input
             class="border px-2 py-1"
             placeholder="New task description"
@@ -87,32 +76,9 @@ const Todos: Component = () => {
             <option value="done">Done</option>
           </select>
         </div>
-        <For each={filteredTasks()}>{task => (
-          <div class="flex items-center gap-2 mb-1">
-            <select
-              value={task.status}
-              onInput={e => store.changeTaskStatus(currentList()!.id, task.id, e.currentTarget.value as TaskStatus)}
-              class="border px-2 py-1"
-              aria-label="Change task status"
-            >
-              <option value="todo">Todo</option>
-              <option value="doing">Doing</option>
-              <option value="done">Done</option>
-            </select>
-            <input
-              type="text"
-              value={task.description}
-              onInput={e => store.editTaskDescription(currentList()!.id, task.id, e.currentTarget.value)}
-              class="border px-2 py-1 flex-1"
-              aria-label="Edit task description"
-            />
-            <button
-              class="text-red-500"
-              onClick={() => store.deleteTask(currentList()!.id, task.id)}
-              aria-label="Delete task"
-            >x</button>
-          </div>
-        )}</For>
+        {/* <For each={filteredTasks()}>{task => (
+          <TodoItem task={task} listId={store.currentList()!.id} store={store} currentList={store.currentList} />
+        )}</For> */}
       </Show>
     </div>
   );

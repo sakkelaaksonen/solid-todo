@@ -4,7 +4,7 @@
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "target": "ESNext",
-
+    "allowImportingTsExtensions": true,
     // Modules
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
