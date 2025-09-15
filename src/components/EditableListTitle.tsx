@@ -1,14 +1,11 @@
 import { Component, createSignal } from "solid-js";
-import type { TodoStore, TodoList } from "../store";
+import type { TodoStoreInstance } from "../store.ts";
 
-interface EditableListTitleProps {
-    list: TodoList;
-    store: TodoStore;
-}
 
-const EditableListTitle: Component<EditableListTitleProps> = (props) => {
+
+const EditableListTitle: Component<TodoStoreInstance> = (props) => {
     const [editing, setEditing] = createSignal(false);
-    const [editName, setEditName] = createSignal(props.list.name);
+    const [editName, setEditName] = createSignal(props.store.currentList().name || "");
 
     return (
         <div class="flex items-center gap-2 mb-2">
@@ -19,31 +16,31 @@ const EditableListTitle: Component<EditableListTitleProps> = (props) => {
                         value={editName()}
                         onInput={e => setEditName(e.currentTarget.value)}
                         onBlur={() => {
-                            if (editName() !== props.list.name && editName().trim() !== "") {
-                                props.store.editListName(props.list.id, editName().trim());
+                            if (editName() !== props.store.currentList().name && editName().trim() !== "") {
+                                props.store.editListName(props.store.currentList().id, editName().trim());
                             }
                             setEditing(false);
                         }}
                         onKeyDown={e => {
                             if (e.key === "Enter") {
-                                if (editName() !== props.list.name && editName().trim() !== "") {
-                                    props.store.editListName(props.list.id, editName().trim());
+                                if (editName() !== props.store.currentList().name && editName().trim() !== "") {
+                                    props.store.editListName(props.store.currentList().id, editName().trim());
                                 }
                                 setEditing(false);
                             } else if (e.key === "Escape") {
-                                setEditName(props.list.name);
+                                setEditName(props.store.currentList().name);
                                 setEditing(false);
                             }
                         }}
                         autofocus
                     />
-                    : <>Tasks in "{props.list.name}"</>
+                    : <>Tasks in "{props.store.currentList().name}"</>
                 }
             </h3>
             <button
                 class="text-gray-500"
                 onClick={() => setEditing(true)}
-                aria-label={`Edit list name ${props.list.name}`}
+                aria-label={`Edit list name ${props.store.currentList().name}`}
             >✎</button>
         </div>
     );

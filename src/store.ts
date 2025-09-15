@@ -33,6 +33,23 @@ export type TodoStore = {
     selectedListId: string | null;   
 };
 
+
+export type StoreActions = {    
+    addList: (name: string) => boolean;
+    deleteList: (id: string) => void;
+    editListName: (id: string, newName: string) => boolean;
+    selectList: (id: string) => void;
+    addTask: (listId: string, description: string) => void;
+    deleteTask: (listId: string, taskId: string) => void;
+    editTaskDescription: (listId: string, taskId: string, newDescription: string) => void;
+    changeTaskStatus: (listId: string, taskId: string, newStatus: TaskStatus) => void;
+    selectedListId: () => string | null;
+    listForTask: (taskId: string) => TodoList 
+    currentList: () => TodoList,
+    getLists: () => TodoList[],
+}
+
+
 function generateId() {
     return Math.random().toString(36).substr(2, 9);
 }
@@ -44,7 +61,18 @@ function isValidListName(name: string, lists: TodoList[]): boolean {
 
 
 export function createTodoListsStore() {
-    const [store, setStore] = createLocalStore<TodoStore>("todoStore", { lists: [], selectedListId: null });
+    const initialLists: TodoList[] = [
+        {
+            id: "sample-list",
+            name: "Sample List",
+            tasks: [
+                { id: "sample-task-1", description: "Welcome to your todo app!", status: "todo" },
+                { id: "sample-task-2", description: "Try adding a new list.", status: "doing" },
+                { id: "sample-task-3", description: "Check off a task.", status: "done" }
+            ]
+        }
+    ];
+    const [store, setStore] = createLocalStore<TodoStore>("todoStore", { lists: initialLists, selectedListId: initialLists[0].id });
 
     function addList(name: string): boolean {
         if (!isValidListName(name, store.lists)) return false;
@@ -70,7 +98,7 @@ export function createTodoListsStore() {
     function selectList(id: string) {
         if (store.lists.some((l) => l.id === id)) {
             setStore("selectedListId", id);
-        }
+        } 
     }
     
     function addTask(listId: string, description: string) {
@@ -91,8 +119,20 @@ export function createTodoListsStore() {
         return store.selectedListId;
     }
 
+    function listForTask(taskId: string) {
+        return store.lists.find(l => l.tasks.some(t => t.id === taskId));
+    }
+
     function currentList() {
-        return store.lists.find(l => l.id === selectedListId());
+        const current =  store.lists.find(l => l.id === selectedListId()) ;
+        if(!current) {
+            throw new Error("Current list not found");
+        }
+        return current;
+    }
+
+    function getLists() {
+        return store.lists;
     }
 
     return {
@@ -107,5 +147,14 @@ export function createTodoListsStore() {
         editTaskDescription,
         changeTaskStatus,
         currentList,
-    }
+        listForTask,
+        getLists
+    } as TodoStore & StoreActions;
 }
+
+export type TodoStoreInstance = {
+    store: TodoStore & StoreActions;
+}
+
+const storeInstance = createTodoListsStore();
+export default storeInstance;

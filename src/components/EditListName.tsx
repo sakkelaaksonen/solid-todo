@@ -1,21 +1,19 @@
 import { Component, createSignal } from "solid-js";
-import type { TodoStore, TodoList } from "../store";
+import store from "../store";
 
-type EditListNameProps = {
-    list: TodoList;
-    store: TodoStore;
-};
 
-const EditListName: Component<EditListNameProps> = (props) => {
+const EditListName: Component = () => {
+    const list = store.currentList();
+    if (!list) return null;
     const [editing, setEditing] = createSignal(false);
-    const [editName, setEditName] = createSignal(props.list.name);
+    const [editName, setEditName] = createSignal(list.name);
 
     return (
         <div class="flex items-center gap-2 mb-1">
             <button
-                class={`px-2 py-1 rounded ${props.store.selectedListId() === props.list.id ? "bg-blue-200" : "bg-gray-100"}`}
-                onClick={() => props.store.selectList(props.list.id)}
-                aria-label={`Select list ${props.list.name}`}
+                class={`px-2 py-1 rounded ${store.selectedListId() === list.id ? "bg-blue-200" : "bg-gray-100"}`}
+                onClick={() => store.selectList(list.id)}
+                aria-label={`Select list ${list.name}`}
             >
                 {editing()
                     ? <input
@@ -23,40 +21,40 @@ const EditListName: Component<EditListNameProps> = (props) => {
                         value={editName()}
                         onInput={e => setEditName(e.currentTarget.value)}
                         onBlur={() => {
-                            if (editName() !== props.list.name && editName().trim() !== "") {
-                                props.store.editListName(props.list.id, editName().trim());
+                            if (editName() !== list.name && editName().trim() !== "") {
+                                store.editListName(list.id, editName().trim());
                             }
                             setEditing(false);
                         }}
                         onKeyDown={e => {
                             if (e.key === "Enter") {
-                                if (editName() !== props.list.name && editName().trim() !== "") {
-                                    props.store.editListName(props.list.id, editName().trim());
+                                if (editName() !== list.name && editName().trim() !== "") {
+                                    store.editListName(list.id, editName().trim());
                                 }
                                 setEditing(false);
                             } else if (e.key === "Escape") {
-                                setEditName(props.list.name);
+                                setEditName(list.name);
                                 setEditing(false);
                             }
                         }}
                         autofocus
                     />
-                    : props.list.name}
+                    : list.name}
             </button>
             <button
                 class="text-gray-500"
                 onClick={() => setEditing(true)}
-                aria-label={`Edit list name ${props.list.name}`}
+                aria-label={`Edit list name ${list.name}`}
             >✎</button>
             <button
                 class="text-red-500"
-                onClick={() => props.store.deleteList(props.list.id)}
-                aria-label={`Delete list ${props.list.name}`}
+                onClick={() => store.deleteList(list.id)}
+                aria-label={`Delete list ${list.name}`}
             >🗑️</button>
             <button
                 class="text-red-500"
-                onClick={() => props.store.deleteList(props.list.id)}
-                aria-label={`Delete list ${props.list.name}`}
+                onClick={() => store.deleteList(list.id)}
+                aria-label={`Delete list ${list.name}`}
             >x</button>
         </div>
     );
