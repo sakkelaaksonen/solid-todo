@@ -16,25 +16,29 @@ Create a simple Todo application using SolidJS and TypeScript, styled with Tailw
 
 - The user must be able to:
 
-- see a list of task lists
+- see a list of task lists (/)
 
-- add a new task list
+- add a new task list (/)
 
-- delete a task list
+- delete a task list (/)
 
-- edit a task list's name
+- edit a task list's name (/)
 
-- select a task list to view its tasks
+- select a task list to view its tasks (/)
 
-- add a task to a task list
+- add a task to a task list (/)
 
-- delete a task from a task list
+- delete a task from a task list (/)
 
-- edit a task's description
+- edit a task's description (/)
 
-- change a task's status
+- change a task's status (/)
 
-- filter a task list to show only tasks with a given status
+- filter a task list to show only tasks with a given status (/)
+
+- show filter status count / all tasks counts next to filter buttons
+
+- Clear all done tasks button
 
 ### Definitions of entities:
 

@@ -13,7 +13,7 @@ const EditableListTitle: Component<TodoStoreInstance> = (props) => {
                 {editing()
                     ? <input
                         class="border px-2 py-1"
-                        value={editName()}
+                        value={props.store.currentList().name}
                         onInput={e => setEditName(e.currentTarget.value)}
                         onBlur={() => {
                             if (editName() !== props.store.currentList().name && editName().trim() !== "") {
@@ -42,6 +42,7 @@ const EditableListTitle: Component<TodoStoreInstance> = (props) => {
                 onClick={() => setEditing(true)}
                 aria-label={`Edit list name ${props.store.currentList().name}`}
             >✎</button>
+            <button onClick={() => props.store.deleteList(props.store.currentList().id)}>X</button>
         </div>
     );
 };

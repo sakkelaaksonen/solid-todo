@@ -4,7 +4,7 @@ import store, { TaskStatus } from "./store.ts";
 import EditableListTitle from "./components/EditableListTitle";
 import ListSelector from "./components/ListSelector";
 import type { Task } from "./store.ts";
-import TodoItems from "./components/TodoItems.jsx";
+import TodoItems, { TodoIsEmpty } from "./components/TodoItems.jsx";
 
 
 const Todos: Component = () => {
@@ -42,6 +42,10 @@ const Todos: Component = () => {
     return store.currentList()!.tasks.filter(t => t.status === taskFilter());
   };
 
+  const handleClearAllDone = () =>
+    store.clearAllDoneFromCurrentList();
+
+
 
   console.log("Current List:", store.selectedListId(), store.currentList());
 
@@ -61,17 +65,7 @@ const Todos: Component = () => {
 
       <div class="mb-4 flex gap-2 items-center">
         <label for="list-select" class="font-semibold">Select list:</label>
-        <select
-          id="list-select"
-          class="border px-2 py-1"
-          value={store.selectedListId() ?? ""}
-          onInput={e => store.selectList(e.currentTarget.value)}
-        >
-          <option value="" disabled>Select a list</option>
-          <For each={store.getLists()}>{list => (
-            <option value={list.id}>{list.name}</option>
-          )}</For>
-        </select>
+        <ListSelector />
       </div>
 
       <EditableListTitle store={store} />
@@ -94,9 +88,12 @@ const Todos: Component = () => {
           <option value="doing">Doing</option>
           <option value="done">Done</option>
         </select>
+        Showing {filteredTasks().length} of {store.currentList().tasks.length} {store.listCount() === 1 ? "task" : "tasks"}.
+        <button onClick={handleClearAllDone} class="bg-red-500 text-white px-2 py-1 rounded" >Clear all done tasks</button>
       </div>
-
-      <TodoItems filteredTasks={filteredTasks()} />
+      <Show when={filteredTasks().length > 0} fallback={<TodoIsEmpty filteredCount={filteredTasks().length} totalCount={store.currentList().tasks.length} />}>
+        <TodoItems filteredTasks={filteredTasks()} />
+      </Show>
 
     </div>
   );

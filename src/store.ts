@@ -47,6 +47,8 @@ export type StoreActions = {
     listForTask: (taskId: string) => TodoList 
     currentList: () => TodoList,
     getLists: () => TodoList[],
+    clearAllDoneFromCurrentList: () => void,
+    listCount: () => number,
 }
 
 
@@ -83,10 +85,11 @@ export function createTodoListsStore() {
     }
 
     function deleteList(id: string) {
-        setStore("lists", (lists) => lists.filter((l) => l.id !== id));
         if (store.selectedListId === id) {
             setStore("selectedListId", store.lists.length > 1 ? store.lists[0].id : null);
         }
+        setStore("lists", (lists) => lists.filter((l) => l.id !== id));
+
     }
 
     function editListName(id: string, newName: string): boolean {
@@ -135,6 +138,15 @@ export function createTodoListsStore() {
         return store.lists;
     }
 
+    function clearAllDoneFromCurrentList() {
+        if (!store.selectedListId) return;
+        setStore("lists", (l) => l.id === store.selectedListId, "tasks", (tasks) => tasks.filter((t) => t.status !== "done"));
+    }
+    
+    function listCount() {
+        return store.lists.length;
+    }
+
     return {
         lists: store.lists,
         selectedListId,
@@ -148,7 +160,9 @@ export function createTodoListsStore() {
         changeTaskStatus,
         currentList,
         listForTask,
-        getLists
+        getLists,
+        clearAllDoneFromCurrentList,
+        listCount
     } as TodoStore & StoreActions;
 }
 
