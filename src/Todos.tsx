@@ -54,13 +54,13 @@ const Todos: Component = () => {
       <h2 class="text-xl font-bold mb-2">Todo Lists</h2>
       <form onSubmit={handleAddList} class="mb-2 flex gap-2">
         <input
-          class="border px-2 py-1"
+          class="input-accent input input-lg"
           placeholder="New list name"
           required
           value={newListName()}
           onInput={e => setNewListName(e.currentTarget.value)}
         />
-        <button class="bg-blue-500 text-white px-2 py-1 rounded">Add List</button>
+        <button class="btn btn-lg btn-accent">Add List</button>
       </form>
 
       <div class="mb-4 flex gap-2 items-center">
@@ -71,25 +71,24 @@ const Todos: Component = () => {
       <EditableListTitle store={store} />
       <form onSubmit={handleAddTask} class="mb-2 flex gap-2">
         <input
-          class="border px-2 py-1"
+          class="input-neutral input input-lg"
           placeholder="New task description"
           required
           value={newTaskDesc()}
           onInput={e => setNewTaskDesc(e.currentTarget.value)}
         />
-        <button class="bg-green-500 text-white px-2 py-1 rounded">Add Task</button>
+        <button class="btn btn-lg btn-accent">Add Task</button>
       </form>
       <div class="mb-2 flex gap-2">
         <label>Filter:</label>
-        <select value={taskFilter()} onInput={e => setTaskFilter(e.currentTarget.value as TaskStatus | "all")}
-          class="border px-2 py-1">
+        <select class="select select-sm select-neutral" value={taskFilter()} onInput={e => setTaskFilter(e.currentTarget.value as TaskStatus | "all")}>
           <option value="all">All</option>
           <option value="todo">Todo</option>
           <option value="doing">Doing</option>
           <option value="done">Done</option>
         </select>
         Showing {filteredTasks().length} of {store.currentList().tasks.length} {store.listCount() === 1 ? "task" : "tasks"}.
-        <button onClick={handleClearAllDone} class="bg-red-500 text-white px-2 py-1 rounded" >Clear all done tasks</button>
+        <button onClick={handleClearAllDone} class="btn btn-sm btn-danger" >Clear all done tasks</button>
       </div>
       <Show when={filteredTasks().length > 0} fallback={<TodoIsEmpty filteredCount={filteredTasks().length} totalCount={store.currentList().tasks.length} />}>
         <TodoItems filteredTasks={filteredTasks()} />

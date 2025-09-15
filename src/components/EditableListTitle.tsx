@@ -38,11 +38,11 @@ const EditableListTitle: Component<TodoStoreInstance> = (props) => {
                 }
             </h3>
             <button
-                class="text-gray-500"
+                class="btn btn-sm btn-neutral"
                 onClick={() => setEditing(true)}
                 aria-label={`Edit list name ${props.store.currentList().name}`}
-            >✎</button>
-            <button onClick={() => props.store.deleteList(props.store.currentList().id)}>X</button>
+            >Edit</button>
+            <button class="btn btn-sm btn-warning" onClick={() => props.store.deleteList(props.store.currentList().id)}>Remove</button>
         </div>
     );
 };

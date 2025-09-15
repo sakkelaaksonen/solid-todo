@@ -14,7 +14,7 @@ const TodoItems: Component<TodoItemsProps> = (props) => (
       <select
         value={task.status}
         onInput={e => store.changeTaskStatus(getListIdForTask(task.id), task.id, e.currentTarget.value as TaskStatus)}
-        class="border px-2 py-1"
+        class="select select-neutral "
         aria-label="Change task status"
       >
         <option value="todo">Todo</option>
@@ -25,11 +25,11 @@ const TodoItems: Component<TodoItemsProps> = (props) => (
         type="text"
         value={task.description}
         onInput={e => store.editTaskDescription(getListIdForTask(task.id), task.id, e.currentTarget.value)}
-        class="border px-2 py-1 flex-1"
+        class="input-neutral input flex-1"
         aria-label="Edit task description"
       />
       <button
-        class="text-red-500"
+        class="btn btn-warning"
         onClick={() => store.deleteTask(getListIdForTask(task.id), task.id)}
         aria-label="Delete task"
       >x</button>

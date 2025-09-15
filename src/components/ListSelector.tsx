@@ -6,7 +6,7 @@ import store from "../store";
 const ListSelector: Component = () => (
     <select
         id="list-select"
-        class="border px-2 py-1"
+        class="select select-accent select-lg"
         value={store.selectedListId() ?? ""}
         onInput={e => store.selectList(e.currentTarget.value)}
     >
@@ -14,7 +14,7 @@ const ListSelector: Component = () => (
         <For each={store.getLists()}>{list => (
             <option value={list.id}>{list.name}</option>
         )}</For>
-    </select>
+    </select >
 );
 
 export default ListSelector;
