@@ -5,8 +5,8 @@ import ListSelector from "./components/ListSelector";
 import type { Task } from "./store.ts";
 import TodoItems, { TodoIsEmpty } from "./components/TodoItems.jsx";
 import Filter from "./components/Filter.tsx";
-import AddNewListForm from "./AddNewListForm.tsx";
-import AddTaskForm from "./AddTaskForm.tsx";
+import AddNewListForm from "./components/AddNewListForm.tsx";
+import AddTaskForm from "./components/AddTaskForm.tsx";
 const Todos: Component = () => {
   const [newListName, setNewListName] = createSignal("");
   const [newTaskDesc, setNewTaskDesc] = createSignal("");
@@ -16,12 +16,7 @@ const Todos: Component = () => {
   // List operations
   const handleAddList = (e: SubmitEvent) => {
     e.preventDefault();
-    console.log("Current list before adding:", store.selectedListId());
-
     if (store.addList(newListName())) {
-
-      console.log("List added:", newListName());
-      console.log("Current list after adding:", store.selectedListId());
       setNewListName("");
       e.target && (e.target as HTMLFormElement).reset();
     } else {
@@ -55,7 +50,20 @@ const Todos: Component = () => {
       <h2 class="text-xl font-bold mb-2">Todo Lists</h2>
       <AddNewListForm newListName={newListName()} setNewListName={setNewListName} handleAddList={handleAddList} />
       <div class="mb-4 flex gap-2 items-center">
-        <ListSelector />
+        <label class="select select-accent">
+          <span class="label">Choose list</span>
+          <select
+            id="list-select"
+            class="select select-neutral select-lg"
+            value={store.selectedListId() ?? ""}
+            onInput={e => store.selectList(e.currentTarget.value)}
+          >
+            <option value="" disabled>Select a list</option>
+            <For each={store.getLists()}>{list => (
+              <option value={list.id}>{list.name}</option>
+            )}</For>
+          </select >
+        </label>
       </div>
 
       <EditableListTitle store={store} />

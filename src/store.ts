@@ -4,10 +4,9 @@ import { createEffect, createSignal } from "solid-js";
 import { createStore, type SetStoreFunction, type Store } from "solid-js/store";
 
 
-// Typed localStorage store for TodoStore[]
-function createLocalStore<T extends object>(name: string, init: T): [Store<T>, SetStoreFunction<T>] {
+function createLocalStore<TodoStore extends object>(name: string, init: TodoStore): [Store<TodoStore>, SetStoreFunction<TodoStore>] {
     const localState = localStorage.getItem(name);
-    const [state, setState] = createStore<T>(localState ? JSON.parse(localState) : init);
+    const [state, setState] = createStore<TodoStore>(localState ? JSON.parse(localState) : init);
     createEffect(() => localStorage.setItem(name, JSON.stringify(state)));
     return [state, setState];
 }

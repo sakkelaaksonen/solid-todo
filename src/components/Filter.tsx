@@ -1,6 +1,7 @@
 
 import { Component, } from "solid-js";
 import store, { TaskStatus, Task } from "../store.ts";
+
 type Props = {
     taskFilter: TaskStatus | "all";
     setTaskFilter: (value: TaskStatus | "all") => void;
