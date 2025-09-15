@@ -49,6 +49,7 @@ export type StoreActions = {
     getLists: () => TodoList[],
     clearAllDoneFromCurrentList: () => void,
     listCount: () => number,
+    getDoneTaskCount: () => number,
 }
 
 
@@ -147,6 +148,12 @@ export function createTodoListsStore() {
         return store.lists.length;
     }
 
+    function getDoneTaskCount() {
+        const list = currentList()
+        if(!list) return 0;
+        return list.tasks.filter(t => t.status === "done").length;
+    }
+
     return {
         lists: store.lists,
         selectedListId,
@@ -162,7 +169,8 @@ export function createTodoListsStore() {
         listForTask,
         getLists,
         clearAllDoneFromCurrentList,
-        listCount
+        listCount,
+        getDoneTaskCount
     } as TodoStore & StoreActions;
 }
 
@@ -171,4 +179,5 @@ export type TodoStoreInstance = {
 }
 
 const storeInstance = createTodoListsStore();
+
 export default storeInstance;

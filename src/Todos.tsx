@@ -1,12 +1,12 @@
-
 import { createSignal, For, Show, Component } from "solid-js";
 import store, { TaskStatus } from "./store.ts";
 import EditableListTitle from "./components/EditableListTitle";
 import ListSelector from "./components/ListSelector";
 import type { Task } from "./store.ts";
 import TodoItems, { TodoIsEmpty } from "./components/TodoItems.jsx";
-
-
+import Filter from "./components/Filter.tsx";
+import AddNewListForm from "./AddNewListForm.tsx";
+import AddTaskForm from "./AddTaskForm.tsx";
 const Todos: Component = () => {
   const [newListName, setNewListName] = createSignal("");
   const [newTaskDesc, setNewTaskDesc] = createSignal("");
@@ -23,6 +23,7 @@ const Todos: Component = () => {
       console.log("List added:", newListName());
       console.log("Current list after adding:", store.selectedListId());
       setNewListName("");
+      e.target && (e.target as HTMLFormElement).reset();
     } else {
       alert("Invalid or duplicate list name.");
     }
@@ -52,44 +53,14 @@ const Todos: Component = () => {
   return (
     <div class="p-4">
       <h2 class="text-xl font-bold mb-2">Todo Lists</h2>
-      <form onSubmit={handleAddList} class="mb-2 flex gap-2">
-        <input
-          class="input-accent input input-lg"
-          placeholder="New list name"
-          required
-          value={newListName()}
-          onInput={e => setNewListName(e.currentTarget.value)}
-        />
-        <button class="btn btn-lg btn-accent">Add List</button>
-      </form>
-
+      <AddNewListForm newListName={newListName()} setNewListName={setNewListName} handleAddList={handleAddList} />
       <div class="mb-4 flex gap-2 items-center">
-        <label for="list-select" class="font-semibold">Select list:</label>
         <ListSelector />
       </div>
 
       <EditableListTitle store={store} />
-      <form onSubmit={handleAddTask} class="mb-2 flex gap-2">
-        <input
-          class="input-neutral input input-lg"
-          placeholder="New task description"
-          required
-          value={newTaskDesc()}
-          onInput={e => setNewTaskDesc(e.currentTarget.value)}
-        />
-        <button class="btn btn-lg btn-accent">Add Task</button>
-      </form>
-      <div class="mb-2 flex gap-2">
-        <label>Filter:</label>
-        <select class="select select-sm select-neutral" value={taskFilter()} onInput={e => setTaskFilter(e.currentTarget.value as TaskStatus | "all")}>
-          <option value="all">All</option>
-          <option value="todo">Todo</option>
-          <option value="doing">Doing</option>
-          <option value="done">Done</option>
-        </select>
-        Showing {filteredTasks().length} of {store.currentList().tasks.length} {store.listCount() === 1 ? "task" : "tasks"}.
-        <button onClick={handleClearAllDone} class="btn btn-sm btn-danger" >Clear all done tasks</button>
-      </div>
+      <AddTaskForm handleAddTask={handleAddTask} newTaskDesc={newTaskDesc()} setNewTaskDesc={setNewTaskDesc} />
+      <Filter taskFilter={taskFilter()} setTaskFilter={setTaskFilter} filteredTasks={filteredTasks()} handleClearAllDone={handleClearAllDone} />
       <Show when={filteredTasks().length > 0} fallback={<TodoIsEmpty filteredCount={filteredTasks().length} totalCount={store.currentList().tasks.length} />}>
         <TodoItems filteredTasks={filteredTasks()} />
       </Show>
