@@ -28,7 +28,7 @@ const Todos: Component = () => {
     }
   };
 
-  const currentList = () => store.lists().find(l => l.id === store.selectedListId());
+  const currentList = () => store.lists.find(l => l.id === store.selectedListId());
   const filteredTasks = () => {
     if (!currentList()) return [];
     if (taskFilter() === "all") return currentList()!.tasks;
@@ -49,7 +49,7 @@ const Todos: Component = () => {
         <button class="bg-blue-500 text-white px-2 py-1 rounded">Add List</button>
       </form>
       <div class="mb-4">
-        <For each={store.lists()}>{list => (
+        <For each={store.lists}>{list => (
           <div class="flex items-center gap-2 mb-1">
             <button
               class={`px-2 py-1 rounded ${store.selectedListId() === list.id ? "bg-blue-200" : "bg-gray-100"}`}
@@ -66,8 +66,8 @@ const Todos: Component = () => {
       </div>
 
       <Show when={currentList()}>
-        <h3 class="text-lg font-semibold mb-2">Tasks in "{currentList()!.name}"</h3>
-        <form onSubmit={handleAddTask} class="mb-2 flex gap-2">
+  <h3 class="text-lg font-semibold mb-2">Tasks in "{currentList()!.name}"</h3>
+  <form onSubmit={handleAddTask} class="mb-2 flex gap-2">
           <input
             class="border px-2 py-1"
             placeholder="New task description"

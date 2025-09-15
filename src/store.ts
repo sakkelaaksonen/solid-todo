@@ -1,4 +1,12 @@
-import { createSignal } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
+import { createStore, type SetStoreFunction, type Store } from "solid-js/store";
+// Typed localStorage store for TodoList[]
+function createLocalStore<T extends object>(name: string, init: T): [Store<T>, SetStoreFunction<T>] {
+	const localState = localStorage.getItem(name);
+	const [state, setState] = createStore<T>(localState ? JSON.parse(localState) : init);
+	createEffect(() => localStorage.setItem(name, JSON.stringify(state)));
+	return [state, setState];
+}
 
 export type TaskStatus = "todo" | "doing" | "done";
 export type Task = {
@@ -23,70 +31,70 @@ function isValidListName(name: string, lists: TodoList[]): boolean {
 }
 
 export function createTodoListsStore() {
-	const [lists, setLists] = createSignal<TodoList[]>([]);
+		const [lists, setLists] = createLocalStore<TodoList[]>("todo-lists", []);
 	const [selectedListId, setSelectedListId] = createSignal<string | null>(null);
 
 	// List operations
-	function addList(name: string) {
-		if (!isValidListName(name, lists())) return false;
-		const newList: TodoList = { id: generateId(), name, tasks: [] };
-		setLists([...lists(), newList]);
-		setSelectedListId(newList.id);
-		return true;
-	}
+		function addList(name: string) {
+			if (!isValidListName(name, lists)) return false;
+			const newList: TodoList = { id: generateId(), name, tasks: [] };
+			setLists([...lists, newList]);
+			setSelectedListId(newList.id);
+			return true;
+		}
 
-	function deleteList(id: string) {
-		setLists(lists().filter((l) => l.id !== id));
-		if (selectedListId() === id) setSelectedListId(null);
-	}
+		function deleteList(id: string) {
+			setLists(lists.filter((l: TodoList) => l.id !== id));
+			if (selectedListId() === id) setSelectedListId(null);
+		}
 
-	function editListName(id: string, name: string) {
-		if (!isValidListName(name, lists())) return false;
-		setLists(lists().map((l) => l.id === id ? { ...l, name } : l));
-		return true;
-	}
+		function editListName(id: string, name: string) {
+			if (!isValidListName(name, lists)) return false;
+			setLists(lists.map((l: TodoList) => l.id === id ? { ...l, name } : l));
+			return true;
+		}
 
 	function selectList(id: string) {
 		setSelectedListId(id);
 	}
 
 	// Task operations
-	function addTask(listId: string, description: string) {
-		setLists(lists().map((l) =>
-			l.id === listId
-				? { ...l, tasks: [...l.tasks, { id: generateId(), description, status: "todo" }] }
-				: l
-		));
-	}
+		function addTask(listId: string, description: string) {
+			setLists(lists.map((l: TodoList) =>
+				l.id === listId
+					? { ...l, tasks: [...l.tasks, { id: generateId(), description, status: "todo" }] }
+					: l
+			));
+		}
 
-	function deleteTask(listId: string, taskId: string) {
-		setLists(lists().map((l) =>
-			l.id === listId
-				? { ...l, tasks: l.tasks.filter((t) => t.id !== taskId) }
-				: l
-		));
-	}
+		function deleteTask(listId: string, taskId: string) {
+			setLists(lists.map((l: TodoList) =>
+				l.id === listId
+					? { ...l, tasks: l.tasks.filter((t: Task) => t.id !== taskId) }
+					: l
+			));
+		}
 
-	function editTaskDescription(listId: string, taskId: string, description: string) {
-		setLists(lists().map((l) =>
-			l.id === listId
-				? { ...l, tasks: l.tasks.map((t) => t.id === taskId ? { ...t, description } : t) }
-				: l
-		));
-	}
+		function editTaskDescription(listId: string, taskId: string, description: string) {
+			setLists(lists.map((l: TodoList) =>
+				l.id === listId
+					? { ...l, tasks: l.tasks.map((t: Task) => t.id === taskId ? { ...t, description } : t) }
+					: l
+			));
+		}
 
-	function changeTaskStatus(listId: string, taskId: string, status: TaskStatus) {
-		setLists(lists().map((l) =>
-			l.id === listId
-				? { ...l, tasks: l.tasks.map((t) => t.id === taskId ? { ...t, status } : t) }
-				: l
-		));
-	}
+		function changeTaskStatus(listId: string, taskId: string, status: TaskStatus) {
+			setLists(lists.map((l: TodoList) =>
+				l.id === listId
+					? { ...l, tasks: l.tasks.map((t: Task) => t.id === taskId ? { ...t, status } : t) }
+					: l
+			));
+		}
 
-	function filterTasks(listId: string, status: TaskStatus) {
-		const list = lists().find((l) => l.id === listId);
-		return list ? list.tasks.filter((t) => t.status === status) : [];
-	}
+		function filterTasks(listId: string, status: TaskStatus) {
+			const list = lists.find((l: TodoList) => l.id === listId);
+			return list ? list.tasks.filter((t: Task) => t.status === status) : [];
+		}
 
 	// LocalStorage sync (basic)
 	// TODO: Add localStorage persistence logic here
