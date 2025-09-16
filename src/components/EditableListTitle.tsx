@@ -1,4 +1,4 @@
-import { Component, createSignal } from "solid-js";
+import { Component, createSignal, Show } from "solid-js";
 import type { TodoStoreInstance } from "../store.ts";
 
 
@@ -9,10 +9,11 @@ const EditableListTitle: Component<TodoStoreInstance> = (props) => {
 
     return (
         <div class="flex items-center gap-2 mb-2">
-            <h3 class="text-lg font-semibold">
-                {editing()
-                    ? <input
-                        class="border px-2 py-1"
+
+            <span class="join">
+                <Show when={editing()} fallback={<h3 class="text-lg font-semibold ">Tasks in "{props.store.currentList().name}" </h3>}>
+                    <input
+                        class="input input-neutral input-sm join-item"
                         value={props.store.currentList().name}
                         onInput={e => setEditName(e.currentTarget.value)}
                         onBlur={() => {
@@ -34,16 +35,16 @@ const EditableListTitle: Component<TodoStoreInstance> = (props) => {
                         }}
                         autofocus
                     />
-                    : <>Tasks in "{props.store.currentList().name}"</>
-                }
-            </h3>
-            <button
-                class="btn btn-sm btn-neutral"
-                onClick={() => setEditing(true)}
-                aria-label={`Edit list name ${props.store.currentList().name}`}
-            >Edit</button>
-            <button class="btn btn-sm btn-warning" onClick={() => props.store.deleteList(props.store.currentList().id)}>Remove</button>
-        </div>
+                </Show>
+
+                <button
+                    class="btn btn-sm btn-accent join-item"
+                    onClick={() => setEditing(true)}
+                    aria-label={`Edit list name ${props.store.currentList().name}`}
+                >Edit</button>
+                <button class="btn btn-sm btn-accent join-item" onClick={() => props.store.deleteList(props.store.currentList().id)}>Remove</button>
+            </span>
+        </div >
     );
 };
 
