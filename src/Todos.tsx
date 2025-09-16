@@ -7,6 +7,8 @@ import TodoItems, { TodoIsEmpty } from "./components/TodoItems.jsx";
 import Filter from "./components/Filter.tsx";
 import AddNewListForm from "./components/AddNewListForm.tsx";
 import AddTaskForm from "./components/AddTaskForm.tsx";
+import { IconCheck, IconChevronUpDown } from "./components/Icons.tsx";
+
 const Todos: Component = () => {
   const [newListName, setNewListName] = createSignal("");
   const [newTaskDesc, setNewTaskDesc] = createSignal("");
@@ -46,24 +48,19 @@ const Todos: Component = () => {
   console.log("Current List:", store.selectedListId(), store.currentList());
 
   return (
+
     <div class="p-4">
       <h2 class="text-xl font-bold mb-2">Todo Lists</h2>
       <AddNewListForm newListName={newListName()} setNewListName={setNewListName} handleAddList={handleAddList} />
       <div class="mb-4 flex gap-2 items-center">
-        <label class="select select-accent">
-          <span class="label">Choose list</span>
-          <select
-            id="list-select"
-            class="select select-neutral select-lg"
-            value={store.selectedListId() ?? ""}
-            onInput={e => store.selectList(e.currentTarget.value)}
-          >
-            <option value="" disabled>Select a list</option>
-            <For each={store.getLists()}>{list => (
-              <option value={list.id}>{list.name}</option>
-            )}</For>
-          </select >
-        </label>
+        <For each={store.getLists()}>{list => (
+          <button class="badge badge-primary" onClick={() => store.selectList(list.id)}>
+
+            <Show when={store.selectedListId() === list.id}><IconCheck /></Show>
+            {list.name}
+          </button>
+        )}</For>
+
       </div>
 
       <EditableListTitle store={store} />

@@ -1,9 +1,15 @@
 import { Component, For, Show, } from "solid-js";
-import store, { type Task, TaskStatus } from "../store.ts";
-
+import store, { type Task, type TaskStatus, } from "../store.ts";
+import { IconClose, } from "./Icons";
 type TodoItemsProps = {
   filteredTasks: Task[];
 }
+
+const TaskStatusText: Record<TaskStatus, string> = {
+  todo: "Todo",
+  doing: "Doing",
+  done: "Done"
+};
 
 const getListIdForTask = (taskId = '') => store.listForTask(taskId)?.id || '';
 
@@ -14,53 +20,27 @@ const TodoItems: Component<TodoItemsProps> = (props) => (
 
 
       <div class="btn-group join">
-        <label class={`btn  btn-sm join-item ${task.status === "todo" ? "btn-accent" : ""}`}>
-          <input
-            type="radio"
-            name={`status-${task.id}`}
-            value="todo"
-            checked={task.status === "todo"}
-            onInput={e => store.changeTaskStatus(getListIdForTask(task.id), task.id, e.currentTarget.value as TaskStatus)}
-            class="hidden"
-          />
-          Todo
-        </label>
-        <label class={`btn btn-sm join-item ${task.status === "doing" ? "btn-accent" : ""}`}>
-          <input
-            type="radio"
-            name={`status-${task.id}`}
-            value="doing"
-            checked={task.status === "doing"}
-            onInput={e => store.changeTaskStatus(getListIdForTask(task.id), task.id, e.currentTarget.value as TaskStatus)}
-            class="hidden"
-          />
-          Doing
-        </label>
-        <label class={`btn btn-sm join-item ${task.status === "done" ? "btn-accent" : ""}`}>
-          <input
-            type="radio"
-            name={`status-${task.id}`}
-            value="done"
-            checked={task.status === "done"}
-            onInput={e => store.changeTaskStatus(getListIdForTask(task.id), task.id, e.currentTarget.value as TaskStatus)}
-            class="hidden"
-          />
-          Done
-        </label>
+        <TodoStatusInput task={task} status="todo" id={`todo-${task.id}`} />
+        <TodoStatusInput task={task} status="doing" id={`doing-${task.id}`} />
+        <TodoStatusInput task={task} status="done" id={`done-${task.id}`} />
       </div>
+
+
       <div class="btn-group join">
         <input
           type="text"
           value={task.description}
           onInput={e => store.editTaskDescription(getListIdForTask(task.id), task.id, e.currentTarget.value)}
-          class="input-neutral btn-sm input flex-1 join-item"
+          class="input-neutral btn-xs input flex-1 join-item"
           aria-label="Edit task description"
         />
         <button
-          class="btn btn-warning btn-sm join-item"
+          class="btn btn-neutral btn-xs join-item"
           onClick={() => store.deleteTask(getListIdForTask(task.id), task.id)}
           aria-label="Delete task"
-        >x</button>
+        >
+          <IconClose /> Remove
+        </button>
       </div>
     </li>)}</For >
   </ul>
@@ -77,5 +57,26 @@ export const TodoIsEmpty: Component<TodoIsEmptyProps> = (props) => (
     {props.totalCount > 0 ? `No tasks with this status. (${props.totalCount - props.filteredCount} hidden).` : "No tasks in this list."}
   </div>
 );
+
+
+const TodoStatusInput: Component<{ task: Task, status: TaskStatus, id: string }> = (props) => (
+  <label class={`btn  btn-xs join-item ${props.task.status === props.status ? "btn-primary" : ""}`} for={`${props.id}`}>
+    <input
+      id={`${props.id}`}
+      type="radio"
+      name={`status-${props.task.id}`}
+      value={props.status}
+      checked={props.task.status === props.status}
+      onInput={e => store.changeTaskStatus(
+        getListIdForTask(props.task.id), props.task.id,
+        e.currentTarget.value as TaskStatus
+      )}
+      class="absolute opacity-0"
+    />
+    {TaskStatusText[props.status]}
+  </label>
+
+);
+
 
 export default TodoItems;

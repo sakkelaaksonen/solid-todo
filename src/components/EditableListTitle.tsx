@@ -1,5 +1,6 @@
 import { Component, createSignal, Show } from "solid-js";
 import type { TodoStoreInstance } from "../store.ts";
+import { IconClose, IconEdit } from "./Icons.tsx";
 
 
 
@@ -36,15 +37,16 @@ const EditableListTitle: Component<TodoStoreInstance> = (props) => {
                         autofocus
                     />
                 </Show>
-
+            </span>
+            <span class="join">
                 <button
-                    class="btn btn-sm btn-accent join-item"
+                    class="btn btn-sm btn-primary join-item"
                     onClick={() => setEditing(true)}
                     aria-label={`Edit list name ${props.store.currentList().name}`}
-                >Edit</button>
-                <button class="btn btn-sm btn-accent join-item" onClick={() => props.store.deleteList(props.store.currentList().id)}>Remove</button>
+                ><IconEdit /> Edit</button>
+                <button class="btn btn-sm btn-neutral join-item" onClick={() => props.store.deleteList(props.store.currentList().id)}><IconClose /> Remove</button>
             </span>
-        </div >
+        </div>
     );
 };
 

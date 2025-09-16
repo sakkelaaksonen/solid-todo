@@ -4,7 +4,7 @@ import store from "../store";
 
 
 const ListSelector: Component = () => (
-    <label class="select select-accent">
+    <label class="select select-primary">
         <span class="label">Choose list</span>
         <select
             id="list-select"
