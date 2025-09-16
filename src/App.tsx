@@ -6,6 +6,8 @@ const App: Component = () => {
     <>
       <Navi />
       <Todos />
+
+
     </>
   );
 };

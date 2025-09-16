@@ -10,7 +10,7 @@ type Props = {
 }
 
 const Filter: Component<Props> = (props) => (
-    <div class="mb-2 flex gap-2">
+    <div class="mb-2 flex gap-2 bg-primary-content p-2 rounded-box items-center justify-between">
         <label>Filter:</label>
         <select class="select select-sm select-neutral" value={props.taskFilter} onInput={e => props.setTaskFilter(e.currentTarget.value as TaskStatus | "all")}>
             <option value="all">All</option>
@@ -18,11 +18,11 @@ const Filter: Component<Props> = (props) => (
             <option value="doing">Doing</option>
             <option value="done">Done</option>
         </select>
-        <div class="join">
-            <span class="join-item label">
+        <div >
+            <span class="label">
                 Showing {props.filteredTasks.length} of {store.currentList().tasks.length} {store.listCount() === 1 ? "task" : "tasks"}.
             </span>
-            <button disabled={store.getDoneTaskCount() === 0} onClick={props.handleClearAllDone} class="btn join-item btn-danger" >Clear all done tasks</button>
+            <button disabled={store.getDoneTaskCount() === 0} onClick={props.handleClearAllDone} class="btn btn-neutral" >Clear all done tasks</button>
         </div>
     </div>
 )

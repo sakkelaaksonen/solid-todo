@@ -14,19 +14,21 @@ const TaskStatusText: Record<TaskStatus, string> = {
 const getListIdForTask = (taskId = '') => store.listForTask(taskId)?.id || '';
 
 const TodoItems: Component<TodoItemsProps> = (props) => (
-  <ul class="list bg-base-100 rounded-box shadow-md">
+  <ul class="list bg-primary-content rounded-box ">
     <For each={props.filteredTasks}>{task => (<li class="list-row">
       {/* <div class="flex items-center gap-2 mb-1"> */}
 
 
-      <div class="btn-group join">
+      <div class="btn-group join border-2 border-neutral rounded-box">
         <TodoStatusInput task={task} status="todo" id={`todo-${task.id}`} />
         <TodoStatusInput task={task} status="doing" id={`doing-${task.id}`} />
         <TodoStatusInput task={task} status="done" id={`done-${task.id}`} />
+
       </div>
 
 
       <div class="btn-group join">
+        <div class="divider divider-horizontal divider-tight"></div>
         <input
           type="text"
           value={task.description}
@@ -35,7 +37,7 @@ const TodoItems: Component<TodoItemsProps> = (props) => (
           aria-label="Edit task description"
         />
         <button
-          class="btn btn-neutral btn-xs join-item"
+          class="btn hover:btn-warning btn-xs join-item"
           onClick={() => store.deleteTask(getListIdForTask(task.id), task.id)}
           aria-label="Delete task"
         >
@@ -60,7 +62,9 @@ export const TodoIsEmpty: Component<TodoIsEmptyProps> = (props) => (
 
 
 const TodoStatusInput: Component<{ task: Task, status: TaskStatus, id: string }> = (props) => (
-  <label class={`btn  btn-xs join-item ${props.task.status === props.status ? "btn-primary" : ""}`} for={`${props.id}`}>
+  <label class="btn hover:btn-info btn-xs join-item" classList={{
+    "btn-primary hover:btn-primary": props.task.status === props.status
+  }}>
     <input
       id={`${props.id}`}
       type="radio"

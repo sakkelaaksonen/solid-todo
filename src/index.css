@@ -34,3 +34,7 @@
   --depth: 0;
   --noise: 0;
 }
+
+.divider-tight {
+  margin-inline-start: 0;
+}

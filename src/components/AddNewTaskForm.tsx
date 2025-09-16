@@ -1,5 +1,6 @@
 import { Component, } from "solid-js";
 import { IconAdd } from "./Icons";
+
 type Props = {
     newTaskDesc: string;
     setNewTaskDesc: (value: string) => void;
@@ -8,13 +9,16 @@ type Props = {
 
 const AddTaskForm: Component<Props> = (props) => (
     <form onSubmit={props.handleAddTask} class="mb-2 flex join">
-        <input
-            class="input-neutral input join-item"
-            placeholder="New task description"
-            required
-            value={props.newTaskDesc}
-            onInput={e => props.setNewTaskDesc(e.currentTarget.value)}
-        />
+        <label class="floating-label join-item flex-1 flex">
+            <input
+                class="input-neutral input join-item flex-1"
+                placeholder="New task description"
+                required
+                value={props.newTaskDesc}
+                onInput={e => props.setNewTaskDesc(e.currentTarget.value)}
+            />
+            <span>Add New Task</span>
+        </label>
         <button class="btn btn-primary join-item"> <IconAdd /> Add Task</button>
     </form>
 )
