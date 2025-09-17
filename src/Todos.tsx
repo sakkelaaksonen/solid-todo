@@ -4,7 +4,7 @@ import type { Task } from "./store.ts";
 import TodoItems, { TodoIsEmpty } from "./components/TodoItems.jsx";
 import Filter from "./components/Filter.tsx";
 import AddNewTaskForm from "./components/AddNewTaskForm.tsx";
-import TodoSelector from "./TodoSelector.tsx";
+import EditableListTitle from "./components/EditableListTitle.tsx";
 
 const Todos: Component = () => {
   const [newTaskDesc, setNewTaskDesc] = createSignal("");
@@ -30,11 +30,16 @@ const Todos: Component = () => {
     store.clearAllDoneFromCurrentList();
 
 
-  return (
+  return (<>
 
     <div class="p-4">
-      <h2 class="text-xl font-bold mb-2">Todo Lists</h2>
-      <TodoSelector />
+
+      {/* <TodoSelector /> */}
+
+      {/* <EditableListTitle /> */}
+
+
+      {/* <div class="divider"></div> */}
       <div class="divider"></div>
       <AddNewTaskForm handleAddTask={handleAddTask} newTaskDesc={newTaskDesc()} setNewTaskDesc={setNewTaskDesc} />
       <div class="divider"></div>
@@ -44,7 +49,7 @@ const Todos: Component = () => {
         <TodoItems filteredTasks={filteredTasks()} />
       </Show>
 
-    </div>
+    </div></>
   );
 };
 

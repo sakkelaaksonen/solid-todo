@@ -1,11 +1,11 @@
 
-import { For, Show, Component } from "solid-js";
-import store from "./store.ts";
+import { For, Show, type Component } from "solid-js";
+import store from "../store.ts";
 
 
-import { IconCheck } from "./components/Icons.tsx";
+import { IconCheck } from "./Icons.tsx";
 
-const TodoSelector = () => {
+const TodoSelector: Component = () => {
     return (
         <div class="mb-4 flex gap-2 items-center">
             <For each={store.getLists()}>{list => (
