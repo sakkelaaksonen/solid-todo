@@ -20,7 +20,7 @@ const DrawerListSelector: Component = () => {
     };
 
     return (
-        <div class="p-4">
+        <>
             <label for="list-search" class="input input-sm input-primary ">
                 <span class="label">
                     <Show when={searchQuery().length === 0}>
@@ -100,7 +100,7 @@ const DrawerListSelector: Component = () => {
                     </li>
                 )}</For>
             </ul >
-        </div >
+        </>
     )
 }
 

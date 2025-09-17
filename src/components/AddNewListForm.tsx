@@ -18,20 +18,25 @@ const AddNewListForm: Component = (props) => {
     }
   };
   return (
-    <form onSubmit={handleAddList} class="mb-2 flex gap-2">
+    <form onSubmit={handleAddList} class="mb-2">
       <fieldset class="fieldset">
         <div class="join">
-          <label class="floating-label join-item">
-            <input type="text" class="input input-primary input-sm validator join-item"
-              placeholder="Max 60 characters, letters and numbers only" required
+          <label class="input validator join-item input-sm">
+            <input type="text" placeholder="Max 60 characters, letters and numbers only"
+              required
+              pattern="^[a-zA-Z0-9 ]+$"
+              maxLength={60}
+
               value={newListName()} onInput={e =>
                 setNewListName(e.currentTarget.value)} />
-            <span>New list name</span>
           </label>
+
           <button class="btn btn-primary join-item btn-sm">
             <IconAdd />
             Add List</button>
-        </div></fieldset>
+        </div>
+        <div class="validator-hint hidden">Enter valid email address</div>
+      </fieldset>
     </form>
   );
 }

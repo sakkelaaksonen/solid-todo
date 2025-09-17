@@ -11,34 +11,48 @@ const getListIdForTask = (taskId = '') => store.listForTask(taskId)?.id || '';
 const TodoItems: Component<TodoItemsProps> = (props) => (
   <ul class="list bg-primary-content rounded-box ">
     <For each={[...props.filteredTasks].reverse()}>{task => (<li class="list-row">
-      {/* <div class="flex items-center gap-2 mb-1"> */}
-
-
-      <div class="btn-group join border-2 border-neutral rounded-box">
+      <div class="join border-neutral rounded-box hidden md:flex">
         <TodoStatusInput task={task} status="todo" id={`todo-${task.id}`} />
         <TodoStatusInput task={task} status="doing" id={`doing-${task.id}`} />
         <TodoStatusInput task={task} status="done" id={`done-${task.id}`} />
-
       </div>
 
+      <label class="select select-primary select-sm md:hidden">
+        <select
+          id="list-select"
+          class="select select-neutral select-sm"
+          value={task.status}
+          onInput={e => store.selectList(e.currentTarget.value)}
+        >
+          <For each={Object.entries(TaskStatusText)}>{([status, text]) => (
+            <option value={status}>{text}</option>
+          )}</For>
+        </select >
+      </label >
 
-      <div class="btn-group join ">
-        <div class="divider divider-horizontal divider-tight"></div>
+
+
+
+
+      <label for={`edit-${task.id}`} class="join">
+
         <input
           type="text"
           value={task.description}
           onInput={e => store.editTaskDescription(getListIdForTask(task.id), task.id, e.currentTarget.value)}
-          class="input-ghost input-xs input flex-1 focus:input-primary hover:border-neutral focus:font-bold focus:border-primary"
+          class=" join-item input-ghost input-xs input flex-1 focus:input-primary hover:border-neutral focus:font-bold focus:border-primary"
           aria-label="Edit task description"
         />
         <button
-          class="btn hover:btn-warning focus:btn-warning btn-xs join-item"
+          class="btn border-neutral hover:btn-warning focus:btn-warning btn-xs join-item"
           onClick={() => store.deleteTask(getListIdForTask(task.id), task.id)}
-          aria-label="Delete task"
+          aria-label="Remove task"
         >
-          <IconClose /> Remove
+          <IconClose />
+          <span class="hidden md:inline-block">Remove</span>
+
         </button>
-      </div>
+      </label>
     </li>)}</For >
   </ul>
 

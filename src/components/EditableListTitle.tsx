@@ -17,17 +17,20 @@ const EditableListTitle: Component = () => {
     return (<>
 
         <Show when={!editing()}>
-            <h1 class="flex">Dos to Do in <span class="flex-1 text-primary font-large font-bold">&nbsp;{store.currentList().name}</span>
+            <div class="flex">
+                <h1>Dos to Do in <span class="flex-1 text-primary font-large font-bold">&nbsp;{store.currentList().name}</span></h1>
                 <span class="divider divider-horizontal"></span>
                 <button
-                    class="btn btn-sm btn-ghost hover:btn-primary flex-none"
+                    class="btn btn-sm  btn-square btn-ghost hover:btn-primary flex-none"
                     onClick={() => setEditing(!editing())}
                     aria-label={`Edit list name ${store.currentList().name}`}
                 >
                     <IconEdit />
                 </button>
-                <button disabled={editing()} class="btn btn-ghost  btn-sm hover:btn-warning join-item" onClick={removeList}><IconClose /></button>
-            </h1>
+                <div class="divider divider-horizontal"></div>
+                <button disabled={editing()} class="btn btn-square btn-ghost  btn-sm hover:btn-warning join-item" onClick={removeList}><IconClose /></button>
+                <div class="divider divider-horizontal"></div>
+            </div>
 
         </Show>
 

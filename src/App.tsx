@@ -5,6 +5,7 @@ import Navi from "./components/Navi";
 import DrawerListSelector from "./components/DrawerListSelector.tsx";
 import { IconListBullets } from "./components/Icons.tsx";
 import store from "./store.ts";
+import AddNewListForm from "./components/AddNewListForm.tsx";
 
 const App: Component = () => {
   return (
@@ -27,6 +28,8 @@ const App: Component = () => {
 
 
           </div>
+          <div class="divider"></div>
+          <AddNewListForm />
           <div class="divider"></div>
           <DrawerListSelector />
         </div>
