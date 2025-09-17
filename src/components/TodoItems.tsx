@@ -1,21 +1,16 @@
 import { Component, For, Show, } from "solid-js";
-import store, { type Task, type TaskStatus, } from "../store.ts";
+import store, { type Task, type TaskStatus, TaskStatusText } from "../store.ts";
 import { IconClose, } from "./Icons";
 type TodoItemsProps = {
   filteredTasks: Task[];
 }
 
-const TaskStatusText: Record<TaskStatus, string> = {
-  todo: "Todo",
-  doing: "Doing",
-  done: "Done"
-};
 
 const getListIdForTask = (taskId = '') => store.listForTask(taskId)?.id || '';
 
 const TodoItems: Component<TodoItemsProps> = (props) => (
   <ul class="list bg-primary-content rounded-box ">
-    <For each={props.filteredTasks}>{task => (<li class="list-row">
+    <For each={[...props.filteredTasks].reverse()}>{task => (<li class="list-row">
       {/* <div class="flex items-center gap-2 mb-1"> */}
 
 
@@ -27,17 +22,17 @@ const TodoItems: Component<TodoItemsProps> = (props) => (
       </div>
 
 
-      <div class="btn-group join">
+      <div class="btn-group join ">
         <div class="divider divider-horizontal divider-tight"></div>
         <input
           type="text"
           value={task.description}
           onInput={e => store.editTaskDescription(getListIdForTask(task.id), task.id, e.currentTarget.value)}
-          class="input-neutral btn-xs input flex-1 join-item"
+          class="input-ghost input-xs input flex-1 focus:input-primary hover:border-neutral focus:font-bold focus:border-primary"
           aria-label="Edit task description"
         />
         <button
-          class="btn hover:btn-warning btn-xs join-item"
+          class="btn hover:btn-warning focus:btn-warning btn-xs join-item"
           onClick={() => store.deleteTask(getListIdForTask(task.id), task.id)}
           aria-label="Delete task"
         >

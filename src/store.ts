@@ -13,6 +13,12 @@ function createLocalStore<TodoStore extends object>(name: string, init: TodoStor
 
 export type TaskStatus = "todo" | "doing" | "done";
 
+export const TaskStatusText: Record<TaskStatus, string> = {
+  todo: "Todo",
+  doing: "Doing",
+  done: "Done"
+};
+
 export type FilterTypes = "all" | TaskStatus;
 
 export type Task = {

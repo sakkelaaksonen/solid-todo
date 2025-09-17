@@ -34,12 +34,6 @@ const Todos: Component = () => {
 
     <div class="p-4">
 
-      {/* <TodoSelector /> */}
-
-      {/* <EditableListTitle /> */}
-
-
-      {/* <div class="divider"></div> */}
       <div class="divider"></div>
       <AddNewTaskForm handleAddTask={handleAddTask} newTaskDesc={newTaskDesc()} setNewTaskDesc={setNewTaskDesc} />
       <div class="divider"></div>

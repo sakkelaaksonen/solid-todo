@@ -52,9 +52,8 @@ const DrawerListSelector: Component = () => {
                             <span class="btn-xs join-item btn btn-primary w-full text-start">
                                 {list.name}
 
-                                <span class="ml-auto ">
-                                    <Show when={list.tasks.length > 0}>
-
+                                <span class="ml-auto " aria-label={`${list.tasks.length} tasks in this list`}>
+                                    <Show when={list.tasks.length > 0} fallback={<IconInfo />}>
                                         <IconListBullets />
                                     </Show>
                                 </span>

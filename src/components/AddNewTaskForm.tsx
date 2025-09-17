@@ -11,7 +11,7 @@ const AddTaskForm: Component<Props> = (props) => (
     <form onSubmit={props.handleAddTask} class="mb-2 flex join">
         <label class="floating-label join-item flex-1 flex">
             <input
-                class="input-neutral input join-item flex-1"
+                class="input-primary input-xl input join-item flex-1"
                 placeholder="New task description"
                 required
                 value={props.newTaskDesc}
@@ -19,7 +19,7 @@ const AddTaskForm: Component<Props> = (props) => (
             />
             <span>Add New Task</span>
         </label>
-        <button class="btn btn-primary join-item"> <IconAdd /> Add Task</button>
+        <button class="btn btn-primary btn-xl join-item"> <IconAdd /> Add Task</button>
     </form>
 )
 
