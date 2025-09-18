@@ -13,6 +13,8 @@ function createLocalStore<TodoStore extends object>(name: string, init: TodoStor
 
 export type TaskStatus = "todo" | "doing" | "done";
 
+export const TaskNamePattern = /^[\p{L}\d\s]{1,60}$/u;
+
 export const TaskStatusText: Record<TaskStatus, string> = {
   todo: "Todo",
   doing: "Doing",
@@ -64,7 +66,7 @@ function generateId() {
 }
 
 function isValidListName(name: string, lists: TodoList[]): boolean {
-    if (!name.match(/^[\p{L}\d]{1,60}$/u)) return false;
+    if (!name.match(TaskNamePattern)) return false;
     return !lists.some((l) => l.name === name);
 }
 

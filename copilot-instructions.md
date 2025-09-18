@@ -36,9 +36,11 @@ Create a simple Todo application using SolidJS and TypeScript, styled with Tailw
 
 - filter a task list to show only tasks with a given status (/)
 
-- show filter status count / all tasks counts next to filter buttons
+- show filter status count / all tasks counts next to filter buttons (/)
 
-- Clear all done tasks button
+- Clear all done tasks button (/)
+
+- Search tasks in the current list (/)
 
 ### Definitions of entities:
 

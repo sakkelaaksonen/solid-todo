@@ -1,7 +1,7 @@
 import { Component, } from "solid-js";
 import { IconAdd } from "./Icons";
 import { createSignal } from "solid-js";
-import store from "../store.ts";
+import store, { TaskNamePattern } from "../store.ts";
 
 
 
@@ -14,28 +14,30 @@ const AddNewListForm: Component = (props) => {
       setNewListName("");
       e.target && (e.target as HTMLFormElement).reset();
     } else {
-      alert("Invalid or duplicate list name.");
+      (e.target as HTMLFormElement).reportValidity();
     }
   };
   return (
     <form onSubmit={handleAddList} class="mb-2">
       <fieldset class="fieldset">
-        <div class="join">
-          <label class="input validator join-item input-sm">
+        <div class="">
+          <label class="input validator input-sm">
             <input type="text" placeholder="Max 60 characters, letters and numbers only"
               required
-              pattern="^[a-zA-Z0-9 ]+$"
+              // pattern={TaskNamePattern.toString()}
               maxLength={60}
 
               value={newListName()} onInput={e =>
                 setNewListName(e.currentTarget.value)} />
-          </label>
 
-          <button class="btn btn-primary join-item btn-sm">
+          </label>
+          <div class="validator-hint">Max 60 characters, letters and numbers only"</div>
+
+          <button class="btn btn-primary btn-sm">
             <IconAdd />
             Add List</button>
         </div>
-        <div class="validator-hint hidden">Enter valid email address</div>
+
       </fieldset>
     </form>
   );
