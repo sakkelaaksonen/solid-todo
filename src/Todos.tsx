@@ -33,6 +33,8 @@ const Todos: Component = () => {
   return (<>
 
     <div class="p-4">
+      <div class="divider"></div>
+      <EditableListTitle />
 
       <div class="divider"></div>
       <AddNewTaskForm handleAddTask={handleAddTask} newTaskDesc={newTaskDesc()} setNewTaskDesc={setNewTaskDesc} />

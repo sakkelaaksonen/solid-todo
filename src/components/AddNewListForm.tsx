@@ -20,24 +20,23 @@ const AddNewListForm: Component = (props) => {
   return (
     <form onSubmit={handleAddList} class="mb-2">
       <fieldset class="fieldset">
-        <div class="">
-          <label class="input validator input-sm">
-            <input type="text" placeholder="Max 60 characters, letters and numbers only"
-              required
-              // pattern={TaskNamePattern.toString()}
-              maxLength={60}
 
-              value={newListName()} onInput={e =>
-                setNewListName(e.currentTarget.value)} />
+        <label class="input validator floating-label input-sm">
+          <span class="label">Add a new list</span>
+          <input type="text" placeholder="New list: Max 60 characters, letters and numbers only"
+            required
+            id="new-list-name"
+            pattern={TaskNamePattern.source}
+            maxLength={60}
+            value={newListName()} onInput={e =>
+              setNewListName(e.currentTarget.value)} />
 
-          </label>
-          <div class="validator-hint">Max 60 characters, letters and numbers only"</div>
+        </label>
+        <div class="validator-hint">Max 60 characters, letters and numbers only</div>
 
-          <button class="btn btn-primary btn-sm">
-            <IconAdd />
-            Add List</button>
-        </div>
-
+        <button class="btn btn-primary btn-sm">
+          <IconAdd />
+          Add List</button>
       </fieldset>
     </form>
   );
