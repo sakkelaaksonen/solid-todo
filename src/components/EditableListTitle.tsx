@@ -75,6 +75,7 @@ const EditableListTitle: Component = () => {
           </button>
           <span class="divider divider-horizontal"></span>
           <button
+            aria-label="Remove list"
             disabled={editing()}
             class="btn btn-square btn-ghost btn-sm hover:btn-warning join-item"
             onClick={openModal} // Open the modal

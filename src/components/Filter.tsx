@@ -11,9 +11,9 @@ type Props = {
 
 const Filter: Component<Props> = (props) => (
   <form class="mb-2 flex flex-wrap gap-2 bg-primary-content p-2 rounded-box items-center justify-start">
-    <label class="label hidden md:inline">Filter:</label>
+    <label for="filter" class="label hidden md:inline">Filter:</label>
 
-    <select class="w-24 select select-sm select-primary" value={props.taskFilter} onInput={e => props.setTaskFilter(e.currentTarget.value as TaskStatus | "all")}>
+    <select id="filter" class="w-24 select select-sm select-primary" value={props.taskFilter} onInput={e => props.setTaskFilter(e.currentTarget.value as TaskStatus | "all")}>
       <option value="all">All</option>
       <option value="todo">Todo</option>
       <option value="doing">Doing</option>
