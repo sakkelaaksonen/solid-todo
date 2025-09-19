@@ -58,12 +58,14 @@ export type StoreActions = {
     clearAllDoneFromCurrentList: () => void,
     listCount: () => number,
     getDoneTaskCount: () => number,
+    listNameExists: (name: string) => boolean;
 }
 
 
 function generateId() {
     return Math.random().toString(36).substr(2, 9);
 }
+
 
 function isValidListName(name: string, lists: TodoList[]): boolean {
     if (!name.match(TaskNamePattern)) return false;
@@ -99,6 +101,10 @@ export function createTodoListsStore() {
         }
         setStore("lists", (lists) => lists.filter((l) => l.id !== id));
 
+    }
+
+    function listNameExists(name: string): boolean {
+        return store.lists.some((l) => l.name === name);
     }
 
     function editListName(id: string, newName: string): boolean {
@@ -178,7 +184,8 @@ export function createTodoListsStore() {
         getLists,
         clearAllDoneFromCurrentList,
         listCount,
-        getDoneTaskCount
+        getDoneTaskCount,
+        listNameExists
     } as TodoStore & StoreActions;
 }
 

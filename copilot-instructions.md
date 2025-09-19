@@ -48,16 +48,16 @@ Create a simple Todo application using SolidJS and TypeScript, styled with Tailw
 
 - two task lists may not have the same name
 
-- a task list may contain any number of tasks
+- a task list may contain any number of tasks (/)
 
-- a task list may contain any number of tasks
+- a task list may contain any number of tasks (/)
 
-- a task has a description text
+- a task has a description text (/)
 
-- a task has a status, which is one of "todo","doing", "done"
+- a task has a status, which is one of "todo","doing", "done" (/)
 
 ### Other requirements:
 
 the task lists and tasks are stored in the
-browser's localStorage
-the UI texts are in English
+browser's localStorage (/)
+the UI texts are in English (/)

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
 @plugin "daisyui/theme" {
   name: "forest";
   default: false;
@@ -35,6 +36,8 @@
   --noise: 0;
 }
 
-.divider-tight {
-  margin-inline-start: 0;
+@layer utilities {
+  .input-decoration-line {
+    text-decoration: line-through;
+  }
 }

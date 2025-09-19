@@ -7,7 +7,6 @@ const App: Component = () => {
 
   const [drawerOpen, setDrawerOpen] = createSignal(false);
 
-
   const openDrawer = () => setDrawerOpen(true);
   const closeDrawer = () => setDrawerOpen(false);
 
@@ -21,9 +20,6 @@ const App: Component = () => {
       <Show when={drawerOpen}>
         <DrawerSide isOpen={drawerOpen} onClose={closeDrawer} />
       </Show>
-
-
-
     </div >
   );
 };

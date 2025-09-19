@@ -22,7 +22,11 @@ const TodoItems: Component<TodoItemsProps> = (props) => (
           id="list-select"
           class="select select-neutral select-sm"
           value={task.status}
-          onInput={e => store.selectList(e.currentTarget.value)}
+          onInput={e => store.changeTaskStatus(
+            getListIdForTask(task.id), task.id,
+            e.currentTarget.value as TaskStatus
+          )
+          }
         >
           <For each={Object.entries(TaskStatusText)}>{([status, text]) => (
             <option value={status}>{text}</option>
@@ -30,18 +34,14 @@ const TodoItems: Component<TodoItemsProps> = (props) => (
         </select >
       </label >
 
-
-
-
-
       <label for={`edit-${task.id}`} class="join">
-
         <input
           type="text"
           value={task.description}
           onInput={e => store.editTaskDescription(getListIdForTask(task.id), task.id, e.currentTarget.value)}
           class=" join-item input-ghost input-xs input flex-1 focus:input-primary hover:border-neutral focus:font-bold focus:border-primary"
           aria-label="Edit task description"
+          classList={{ "input-decoration-line text-secondary": task.status === "done" }}
         />
         <button
           class="btn border-neutral hover:btn-warning focus:btn-warning btn-xs join-item"
@@ -50,11 +50,10 @@ const TodoItems: Component<TodoItemsProps> = (props) => (
         >
           <IconClose />
           <span class="hidden md:inline-block">Remove</span>
-
         </button>
       </label>
     </li>)}</For >
-  </ul>
+  </ul >
 
 );
 interface TodoIsEmptyProps {
@@ -90,6 +89,5 @@ const TodoStatusInput: Component<{ task: Task, status: TaskStatus, id: string }>
   </label>
 
 );
-
 
 export default TodoItems;
