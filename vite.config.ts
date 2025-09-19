@@ -10,5 +10,7 @@ export default defineConfig({
   },
   build: {
     target: 'esnext',
+    
   },
+  base: 'https://sakkelaaksonen.github.io/solid-todo/'
 });
