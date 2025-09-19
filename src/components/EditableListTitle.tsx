@@ -89,25 +89,27 @@ const EditableListTitle: Component = () => {
             </Show>
 
             {/* Modal for confirming remove action */}
-            <Modal
-                isOpen={isModalOpen()}
-                onClose={() => setIsModalOpen(false)}
+            <Show when={isModalOpen()}>
+                <Modal
+                    isOpen={isModalOpen()}
+                    onClose={() => setIsModalOpen(false)}
+                >
 
-            >
-                <h3 class="font-bold text-lg">Confirm Removal</h3>
-                <p class="py-4">
-                    Are you sure you want to remove the list{" "}
-                    <strong>{store.currentList().name}</strong>?
-                </p>
-                <div class="modal-action">
-                    <button class="btn btn-error" onClick={confirmRemoveList}>
-                        Confirm
-                    </button>
-                    <button class="btn" onClick={() => setIsModalOpen(false)}>
-                        Cancel
-                    </button>
-                </div>
-            </Modal>
+                    <h3 class="font-bold text-lg">Confirm Removal</h3>
+                    <p class="py-4">
+                        Are you sure you want to remove the list{" "}
+                        <strong>{store.currentList().name}</strong>?
+                    </p>
+                    <div class="modal-action">
+                        <button class="btn btn-error" onClick={confirmRemoveList}>
+                            Confirm
+                        </button>
+                        <button class="btn" onClick={() => setIsModalOpen(false)}>
+                            Cancel
+                        </button>
+                    </div>
+                </Modal>
+            </Show>
         </>
     );
 };

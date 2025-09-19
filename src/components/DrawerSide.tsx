@@ -1,6 +1,6 @@
 
 import createFocusTrap from 'solid-focus-trap'
-import { Component, createSignal, Show } from "solid-js";
+import { Component, createSignal, onCleanup, Show } from "solid-js";
 import DrawerListSelector from "./DrawerListSelector.tsx";
 import { IconListBullets } from "./Icons.tsx";
 import store from "../store.ts";
@@ -24,12 +24,13 @@ const DrawerSide: Component<{
     return (
         <Show when={props.isOpen()}>
             <div ref={setContentRef} class="drawer-side min-h-full">
-                <label for="navi-drawer" class="drawer-overlay"></label>
+                <label onClick={() => {
+                    document.getElementById("navi-drawer")?.click(); props.onClose();
+                }} for="navi-drawer" class="drawer-overlay"></label>
                 <div class="min-h-full menu p-4 w-80 bg-base-100 text-base-content">
                     <div class="flex justify-between items-center">
                         <div class="flex items-center gap-2">
                             <button
-                                autofocus
                                 onClick={() => {
                                     document.getElementById("navi-drawer")?.click();
                                     props.onClose();

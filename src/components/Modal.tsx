@@ -1,4 +1,5 @@
-import { Component, Show } from "solid-js";
+import { Component, onCleanup, Show, createSignal } from "solid-js";
+import createFocusTrap from 'solid-focus-trap'
 
 
 interface ModalProps {
@@ -9,6 +10,15 @@ interface ModalProps {
 }
 
 const Modal: Component<ModalProps> = (props) => {
+    const [contentRef, setContentRef] = createSignal<HTMLElement | null>(null)
+    createSignal<HTMLElement | null>(null)
+
+    createFocusTrap({
+        element: contentRef,
+        enabled: props.isOpen,
+    })
+
+
     let dialogRef: HTMLDialogElement | undefined;
 
     const handleOverlayClick = (e: MouseEvent) => {
@@ -17,17 +27,21 @@ const Modal: Component<ModalProps> = (props) => {
         }
     };
 
+
+    onCleanup(() => {
+        console.log('Modal unmounted. Sometimes this fails and focus trap fails on next open')
+    });
     return (
         <Show when={props.isOpen}>
             <dialog
                 ref={dialogRef}
-                class="modal"
+                class="modal "
                 onClick={handleOverlayClick}
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
                 open
             >
-                <form method="dialog" class="modal-box">
+                <form method="dialog" ref={setContentRef} class="modal-box border-primary border-2">
                     {props.children}
                     <div class="modal-action">
                         {props.showButton && <button class="btn" onClick={props.onClose}>
