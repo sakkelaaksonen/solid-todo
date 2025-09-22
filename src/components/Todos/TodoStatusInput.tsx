@@ -13,8 +13,8 @@ const TodoStatusInput: Component<Props> = (props) => {
 
   return (
     <label class="btn join-item" classList={{
-      "btn-secondary": props.task.status === props.status && props.status === 'todo',
-      "btn-info": props.task.status === props.status && props.status === 'doing',
+      "btn-info": props.task.status === props.status && props.status === 'todo',
+      "btn-secondary": props.task.status === props.status && props.status === 'doing',
       "btn-primary ": props.task.status === 'done' && props.status === 'done',
     }}>
       <input
