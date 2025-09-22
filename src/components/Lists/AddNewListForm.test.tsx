@@ -1,0 +1,87 @@
+import { describe, it, expect, beforeEach, vi } from "vitest";
+import AddNewListForm from "./AddNewListForm";
+import type { StoreActions, TodoStore } from "../../store/store";
+import userEvent from "@testing-library/user-event"
+import { render } from "@solidjs/testing-library"
+describe("AddNewListForm", () => {
+
+  let mockActions: StoreActions;
+  let mockStore: TodoStore;
+
+  const user = userEvent.setup()
+  beforeEach(() => {
+    mockActions = {
+      addList: vi.fn(() => true),
+      listNameExists: vi.fn(() => false),
+    } as unknown as StoreActions;
+
+    mockStore = {
+      lists: [],
+      selectedListId: null, // Add required property
+    }
+  });
+
+  it("should render the form correctly", () => {
+    const { getByLabelText, getByText } = render(() => (
+      <AddNewListForm actions={mockActions} store={mockStore} />
+    ));
+
+    expect(getByLabelText("Add a new list")).toBeInTheDocument();
+    expect(getByText("Add List")).toBeInTheDocument();
+  });
+
+  it("should call addList when form is submitted", async () => {
+
+
+    const { getByLabelText, getByText } = render(() => (
+      <AddNewListForm store={mockStore} actions={mockActions} /> // Provide complete mock store
+    ));
+
+    const input = getByLabelText("Add a new list");
+    const button = getByText("Add List");
+
+    const user = userEvent.setup(); // Setup userEvent
+    await user.type(input, "New List"); // Use userEvent to type
+    await user.click(button); // Use userEvent to click
+
+    expect(mockActions.addList).toHaveBeenCalledWith("New List");
+  });
+
+  it("should show an error message if the list name already exists", async () => {
+    mockActions.listNameExists = vi.fn(() => true);
+    // mockActions.listNameExists = vi.fn(() => true);
+    const mockStore = {
+      lists: [{ id: "1", name: "Duplicate List", tasks: [] }],
+      selectedListId: null, // Add required property
+    };
+
+    const { getByLabelText, getByText, queryByText } = render(() => (
+      <AddNewListForm store={mockStore} actions={mockActions} /> // Provide complete mock store
+    ));
+
+    const input = getByLabelText("Add a new list");
+    const button = getByText("Add List");
+
+    const user = userEvent.setup(); // Setup userEvent
+    await user.type(input, "Duplicate List"); // Use userEvent to type
+    await user.click(button); // Use userEvent to click
+
+    expect(mockActions.addList).not.toHaveBeenCalled();
+    expect(queryByText("Name already exists.")).toBeInTheDocument();
+  });
+
+  it("should reset the form after a successful submission", async () => {
+    const { getByLabelText, getByText } = render(() => (
+      <AddNewListForm actions={mockActions} store={mockStore} />
+    ));
+
+    const input = getByLabelText("Add a new list");
+    const button = getByText("Add List");
+
+    // await userEvent.click(input);
+    await userEvent.type(input, "New List");
+    await userEvent.click(button);
+
+    expect(input).toHaveValue("");
+  });
+});

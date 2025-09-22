@@ -112,7 +112,7 @@ export function useTodoStore(): [TodoStore, StoreActions] {
   function addList(name: string): boolean {
     //TODO Return typed errors
     if (!isValidListName(name)) return false;
-    if (nameExists(name, store.lists)) return false;
+    if (listNameExists(name)) return false;
     const newList: TodoList = { id: generateId(), name, tasks: [] };
     setStore("lists", (lists) => [...lists, newList]);
     setStore("selectedListId", newList.id);
