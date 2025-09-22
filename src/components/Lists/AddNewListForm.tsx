@@ -27,10 +27,10 @@ const AddNewListForm: Component = (props) => {
   };
 
   return (
-    <form onSubmit={handleAddList} class="mb-2">
+    <form onSubmit={handleAddList}>
       <fieldset class="fieldset">
         {errorMessage() && <div class="error-message">{errorMessage()}</div>}
-        <label class="input validator floating-label input-sm">
+        <label class="input validator floating-label w-full">
           <span class="label">Add a new list</span>
           <input type="text" placeholder="New list: Max 60 characters, letters and numbers only"
             required
@@ -42,12 +42,12 @@ const AddNewListForm: Component = (props) => {
               setNewListName(e.currentTarget.value)} />
 
         </label>
-        <div class="validator-hint">Max 60 characters, letters and numbers only</div>
-
-
-        <button class="btn btn-primary btn-sm">
+        <button class="btn btn-primary mt-2">
           <IconAdd />
           Add List</button>
+
+        <div class="validator-hint text-accent">Max 60 characters, letters and numbers only</div>
+
       </fieldset>
     </form>
   );

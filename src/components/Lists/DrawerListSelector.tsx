@@ -23,7 +23,7 @@ const DrawerListSelector: Component<Props> = ({ onSelectList }) => {
 
   return (
     <>
-      <label for="list-search" class="input input-sm input-primary ">
+      <label for="list-search" class="input w-full input-primary ">
         <span class="label">
           <Show when={searchQuery().length === 0}>
             <IconLookingGlass />
@@ -46,37 +46,31 @@ const DrawerListSelector: Component<Props> = ({ onSelectList }) => {
       </label>
       <div class="divider"></div>
       <ul class="menu min-h-full w-full">
-        <For each={filteredLists()} fallback={<li>No lists found</li>}>{list => (
+        <For each={filteredLists().reverse()} fallback={<li>No lists found</li>}>{list => (
           <li class="pb-2">
 
 
             <Show when={store.selectedListId() === list.id}>
-              <span class="btn-lg join-item btn btn-primary w-full text-start">
-                {list.name}
-
-                <span class="ml-auto " aria-label={`${list.tasks.length} tasks in this list`}>
-                  <Show when={list.tasks.length > 0} fallback={<IconInfo />}>
-                    <IconListBullets />
-                  </Show>
+              <span class="text-lg join-item w-full text-start text-primary">
+                <span class="">
+                  <IconCheck />
                 </span>
+                {list.name}
               </span>
-
 
             </Show>
 
             <Show when={store.selectedListId() !== list.id}>
               <button
                 onClick={() => handleSelect(list.id)}
-                class="btn hover:btn-primary btn-lg  w-full group "
-                classList={{
-                  "btn-primary": store.selectedListId() === list.id,
-                  "btn-ghost": store.selectedListId() !== list.id,
-                }}
-              >         {list.name}
-                <span class="ml-auto group-hover:inline hidden">
-                  <IconCheck />
+                aria-label={`Select list ${list.name}`}
+              >
+                <span class="scale-75">
+                  <Show when={list.tasks.length > 0} fallback={<IconInfo />}>
+                    <IconListBullets />
+                  </Show>
                 </span>
-
+                {list.name}
               </button>
             </Show>
           </li>

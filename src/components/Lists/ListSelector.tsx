@@ -3,11 +3,11 @@ import store from "../../store/store";
 
 const ListSelector: Component = () => (
 
-  <label class="select select-primary select-sm ">
+  <label class="select select-primary  ">
     <span class="label">Select a list</span>
     <select
       id="list-select"
-      class="select select-neutral select-sm"
+      class="select select-neutral"
       value={store.selectedListId() ?? ""}
       onInput={e => store.selectList(e.currentTarget.value)}
     >

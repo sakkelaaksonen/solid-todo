@@ -8,7 +8,7 @@ interface TodoIsEmptyProps {
 }
 
 const TodoIsEmpty: Component<TodoIsEmptyProps> = (props) => (
-  <div class="text-primary italic">
+  <div class="text-warning italic mt-8">
     {props.totalCount > 0 ?
       `No tasks with this status. (${props.totalCount - props.filteredCount} hidden).` :
       "No tasks in this list."}

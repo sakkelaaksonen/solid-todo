@@ -12,7 +12,7 @@ const App: Component = () => {
 
   return (
     <div class="drawer">
-      <input id="navi-drawer" type="checkbox" class="drawer-toggle" />
+      <input id="navi-drawer" type="checkbox" class="drawer-toggle" aria-label="Navigation drawer toggle" />
       <div class="drawer-content">
         <Navi onClickNavi={openDrawer} />
         <Todos />

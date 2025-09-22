@@ -20,6 +20,10 @@ const EditableListTitle: Component = () => {
 
   const startEditing = () => {
     setEditing(true);
+    setTimeout(() => {
+      inputRef?.focus();
+
+    }, 0);
   };
 
   const saveListName = () => {
@@ -52,28 +56,25 @@ const EditableListTitle: Component = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const listName = () => store.currentList().name || "Unnamed List";
+  const listName = () => store.currentList().name;
 
-  onMount(() => {
-    console.log("Mounted EditableListTitle with list name:", listName());
-  });
 
   return (
     <>
       <Show when={!editing()}>
-        <div class="flex">
+        <div class="flex items-center">
           <h1>
             <span class="hidden md:inline">
               Dos to Do in{" "}
             </span>
 
-            <span class="flex-1 text-primary font-large font-bold">
+            <span class="flex-1 text-primary text-xl font-bold">
               &nbsp;{listName()}
             </span>
           </h1>
           <div class="divider divider-horizontal"></div>
           <button
-            class="btn btn-sm btn-square btn-ghost hover:btn-primary flex-none"
+            class="btn  btn-square btn-ghost hover:btn-primary flex-none"
             onClick={startEditing}
             aria-label={`Edit list name ${listName()}`}
           >
@@ -83,7 +84,7 @@ const EditableListTitle: Component = () => {
           <button
             aria-label="Remove list"
             disabled={editing()}
-            class="btn btn-square btn-ghost btn-sm hover:btn-warning join-item"
+            class="btn btn-square btn-ghost hover:btn-warning join-item"
             onClick={openModal} // Open the modal
           >
             <IconClose />
@@ -95,11 +96,10 @@ const EditableListTitle: Component = () => {
         <div class="label validator floating-label join">
           <input
             ref={inputRef}
-            class="input input-sm join-item"
+            class="input join-item text-lg font-bold"
             classList={{
               "input-neutral": editing(),
             }}
-            autofocus
             disabled={!editing()}
             type="text"
             maxlength={60}
@@ -122,9 +122,9 @@ const EditableListTitle: Component = () => {
           <span class="validator-hint">Max 60 characters, letters and numbers only</span>
 
           <span class="label text-primary">Max 60 letters and numbers</span>
-          {errorMessage() && <div class="px-2 text-error text-sm">{errorMessage()}</div>}
+          {errorMessage() && <div class="px-2 text-error text">{errorMessage()}</div>}
           <button
-            class="btn btn-sm btn-primary join-item"
+            class="btn btn-primary join-item"
             onClick={saveListName}
             aria-label={`Edit list name ${listName()}`}
           >

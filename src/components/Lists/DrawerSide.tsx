@@ -29,16 +29,18 @@ const DrawerSide: Component<{
     <Show when={props.isOpen()}>
       <div ref={setContentRef} class="drawer-side min-h-full">
         <label onClick={handleClose} for="navi-drawer" class="drawer-overlay"></label>
-        <div class="min-h-full menu p-4 w-80 bg-base-100 text-base-content">
-          <div class="flex justify-between items-center">
-            <div class="flex items-center gap-2">
-              <button
-                onClick={handleClose}
-                ref={setInitialFocusRef} class="btn btn-xs btn-ghost hover:text-primary">
-                <IconListBullets />
-              </button>
-              <span>All My Dos to Do <span class="text-primary font-bold">({store.listCount()}) </span> </span>
-            </div>
+        <div class="min-h-full menu p-4 w-80 md:w-96 bg-base-100 text-base-content">
+
+          <div class="flex items-center gap-2 my-4 pe-4">
+
+            <h2>All My Todo Lists <span class="font-bold text-sm">({store.listCount()}) </span> </h2>
+            <span class="flex-1"></span>
+            <button
+              onClick={handleClose}
+              ref={setInitialFocusRef} class="btn btn-xs btn-ghost hover:text-primary">
+              <IconListBullets />
+            </button>
+
 
           </div>
           <div class="divider"></div>

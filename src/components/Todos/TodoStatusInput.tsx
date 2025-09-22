@@ -5,8 +5,10 @@ import type { Task, TaskStatus } from "../../store/store.ts";
 
 
 const TodoStatusInput: Component<{ task: Task, status: TaskStatus, id: string }> = (props) => (
-  <label class="btn hover:btn-info btn-xs join-item" classList={{
-    "btn-primary hover:btn-primary": props.task.status === props.status
+  <label class="btn join-item" classList={{
+    "btn-secondary": props.task.status === props.status && props.status === 'todo',
+    "btn-info": props.task.status === props.status && props.status === 'doing',
+    "btn-primary ": props.task.status === 'done' && props.status === 'done',
   }}>
     <input
       id={`${props.id}`}

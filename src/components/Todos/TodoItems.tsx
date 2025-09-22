@@ -38,12 +38,12 @@ const TodoItems: Component<TodoItemsProps> = (props) => (
           type="text"
           value={task.description}
           onInput={e => store.editTaskDescription(store.getListIdForTask(task.id), task.id, e.currentTarget.value)}
-          class=" join-item input-ghost input-xs input flex-1 focus:input-primary hover:border-neutral focus:font-bold focus:border-primary"
+          class=" join-item input-ghost text-lg input flex-1 focus:input-neutral hover:border-neutral focus:font-bold focus:border-primary"
           aria-label="Edit task description"
           classList={{ "input-decoration-line text-secondary": task.status === "done" }}
         />
         <button
-          class="btn border-neutral hover:btn-warning focus:btn-warning btn-xs join-item"
+          class="btn border-neutral hover:btn-warning focus:btn-warning join-item"
           onClick={() => store.deleteTask(store.getListIdForTask(task.id), task.id)}
           aria-label="Remove task"
         >
