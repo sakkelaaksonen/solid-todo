@@ -12,5 +12,6 @@ export default defineConfig({
     target: 'esnext',
     
   },
-  base: 'https://sakkelaaksonen.github.io/solid-todo/'
+  base: process.env.NODE_ENV === 'production' ? 'https://sakkelaaksonen.github.io/solid-todo/' :
+  ''
 });

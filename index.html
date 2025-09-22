@@ -17,19 +17,9 @@
 </div> -->
 
     <div id="loader" class="fullscreen-loader">
-      <h1 class="loader-text text-black">Loading your Todos...</h1>
-      <span class="loading loading-infinity loading-xl"></span>
+      <h1 class="loader-text text-2xl text-black">Loading your Todos...</h1>
+      <div class="loader-icon loading loading-infinity loading-xl"></div>
     </div>
-
-    <script>
-      // Hide the loader after 1 second
-      setTimeout(() => {
-        const loader = document.getElementById("loader");
-        if (loader) {
-          loader.classList.add("hidden");
-        }
-      }, 1000);
-    </script>
 
     <script src="/src/index.tsx" type="module"></script>
   </body>

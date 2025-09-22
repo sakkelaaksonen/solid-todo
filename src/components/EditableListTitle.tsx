@@ -5,6 +5,8 @@ import store, { TaskNamePattern } from "../store.ts";
 import Modal from "./Modal";
 
 const EditableListTitle: Component = () => {
+
+
   const [editing, setEditing] = createSignal(false);
   const [editName, setEditName] = createSignal(store.currentList().name || "");
   const [isModalOpen, setIsModalOpen] = createSignal(false); // Track modal state
@@ -19,10 +21,6 @@ const EditableListTitle: Component = () => {
     }, 0); // Delay to ensure the input is rendered
   };
 
-  const stopEditing = () => {
-    setEditing(false);
-    setErrorMessage("");
-  };
 
   const saveListName = () => {
     if (!inputRef?.checkValidity()) {
@@ -31,6 +29,7 @@ const EditableListTitle: Component = () => {
       return;
     }
 
+    //TODO AI made a mess again. Fix this.
     if (store.getLists().some(list => list.name === editName() && list.id !== store.currentList().id)) {
       setErrorMessage("List name already exists.");
       return;
@@ -51,6 +50,10 @@ const EditableListTitle: Component = () => {
   const openModal = () => {
     setIsModalOpen(true);
   };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  }
+  const listName = () => store.currentList().name || "Unnamed List";
 
   return (
     <>
@@ -62,14 +65,14 @@ const EditableListTitle: Component = () => {
             </span>
 
             <span class="flex-1 text-primary font-large font-bold">
-              &nbsp;{store.currentList().name}
+              &nbsp;{listName()}
             </span>
           </h1>
           <div class="divider divider-horizontal"></div>
           <button
             class="btn btn-sm btn-square btn-ghost hover:btn-primary flex-none"
             onClick={startEditing}
-            aria-label={`Edit list name ${store.currentList().name}`}
+            aria-label={`Edit list name ${listName()}`}
           >
             <IconEdit />
           </button>
@@ -107,7 +110,7 @@ const EditableListTitle: Component = () => {
               if (e.key === "Enter") {
                 saveListName();
               } else if (e.key === "Escape") {
-                setEditName(store.currentList().name);
+                setEditName(listName());
                 setEditing(false);
               }
             }}
@@ -119,7 +122,7 @@ const EditableListTitle: Component = () => {
           <button
             class="btn btn-sm btn-primary join-item"
             onClick={saveListName}
-            aria-label={`Edit list name ${store.currentList().name}`}
+            aria-label={`Edit list name ${listName()}`}
           >
             <IconAdd />
             Save
@@ -131,7 +134,7 @@ const EditableListTitle: Component = () => {
       <Show when={isModalOpen()}>
         <Modal
           isOpen={isModalOpen()}
-          onClose={() => setIsModalOpen(false)}
+          onClose={closeModal}
         >
 
           <h3 class="font-bold text-lg">Confirm Removal</h3>
@@ -143,12 +146,12 @@ const EditableListTitle: Component = () => {
             <button class="btn btn-error" onClick={confirmRemoveList}>
               Confirm
             </button>
-            <button class="btn" onClick={() => setIsModalOpen(false)}>
+            <button class="btn" onClick={closeModal}>
               Cancel
             </button>
           </div>
         </Modal>
-      </Show>
+      </Show >
     </>
   );
 };

@@ -63,7 +63,23 @@
   pointer-events: none;
 }
 
-.loader-text {
-  font-size: 1.5rem;
-  font-weight: bold;
+/* Automatically hide the loader after 1 second */
+#loader {
+  animation: fadeOut 1s ease 1s forwards;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 52px;
+}
+
+.loader-icon {
+  transform: scale(8);
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    pointer-events: none;
+  }
 }
