@@ -1,5 +1,5 @@
 import { createSignal, Show, Component } from "solid-js";
-import { useTodoStore, TaskStatus } from "../../store/store.ts";
+import { TaskStatus } from "../../store/store.ts";
 import type { Task } from "../../store/store.ts";
 import TodoItems from "./TodoItems.jsx";
 import TodoIsEmpty from "./TodosIsEmpty.tsx";

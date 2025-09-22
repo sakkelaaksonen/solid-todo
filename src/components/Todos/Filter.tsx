@@ -1,4 +1,4 @@
-import { Component, Show } from "solid-js";
+import { Component, Show, createMemo } from "solid-js";
 import type { StoreProps, TaskStatus, Task, FilterTypes } from "../../store/store.ts";
 import { IconClose } from "../ui/Icons.tsx";
 
@@ -10,6 +10,13 @@ type Props = StoreProps & {
 }
 
 const Filter: Component<Props> = (props) => {
+
+  const doneTaskCount = createMemo(() => {
+    const list = props.actions.currentList()
+    if (!list) return 0;
+    return list.tasks.filter(t => t.status === "done").length;
+  })
+
 
   return (
     <form class="mb-2 flex flex-wrap gap-2 bg-primary-content p-2 rounded-box items-center justify-start">
@@ -44,7 +51,7 @@ const Filter: Component<Props> = (props) => {
             {props.actions.listCount() === 1 ? "task" : "tasks"}. </span>
         </span>
         <button
-          disabled={props.actions.getDoneTaskCount() === 0}
+          disabled={doneTaskCount() === 0}
           onClick={props.handleClearAllDone}
           class="btn btn-neutral" >Clear all done tasks</button>
       </div >
