@@ -1,13 +1,19 @@
 import { Component, createSignal, Show } from "solid-js";
-import store from "../store/store";
+import store from "../../store/store";
 import { For } from "solid-js";
-import { IconLookingGlass, IconClose, IconCheck, IconListBullets, IconInfo } from "./ui/Icons";
+import { IconLookingGlass, IconClose, IconCheck, IconListBullets, IconInfo } from "../ui/Icons";
 
-const DrawerListSelector: Component = () => {
+
+type Props = {
+  onSelectList?: (listId: string) => void;
+}
+
+const DrawerListSelector: Component<Props> = ({ onSelectList }) => {
   const [searchQuery, setSearchQuery] = createSignal("");
 
   const handleSelect = (listId: string) => {
     store.selectList(listId);
+    onSelectList?.(listId);
   }
 
 
@@ -45,7 +51,7 @@ const DrawerListSelector: Component = () => {
 
 
             <Show when={store.selectedListId() === list.id}>
-              <span class="btn-xs join-item btn btn-primary w-full text-start">
+              <span class="btn-lg join-item btn btn-primary w-full text-start">
                 {list.name}
 
                 <span class="ml-auto " aria-label={`${list.tasks.length} tasks in this list`}>
@@ -61,7 +67,7 @@ const DrawerListSelector: Component = () => {
             <Show when={store.selectedListId() !== list.id}>
               <button
                 onClick={() => handleSelect(list.id)}
-                class="btn hover:btn-primary btn-xs  w-full group "
+                class="btn hover:btn-primary btn-lg  w-full group "
                 classList={{
                   "btn-primary": store.selectedListId() === list.id,
                   "btn-ghost": store.selectedListId() !== list.id,

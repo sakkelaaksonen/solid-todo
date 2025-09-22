@@ -1,6 +1,12 @@
-// Type for the todo store, for use in components
+//
+/**
+ * Store
+ * TODO: 
+ * - separate actions
+ * - Typed errors and error messages 
+ */
 
-import { createEffect, createSignal } from "solid-js";
+import { createEffect } from "solid-js";
 import { createStore, type SetStoreFunction, type Store } from "solid-js/store";
 
 
@@ -41,6 +47,12 @@ export type TodoStore = {
     selectedListId: string | null;   
 };
 
+export const ListNameErrors: Record<string, string> = {
+  exists: "Name already exists.",
+  invalid: "Invalid name.",
+};
+
+
 
 export type StoreActions = {    
     addList: (name: string) => boolean;
@@ -59,11 +71,12 @@ export type StoreActions = {
     listCount: () => number,
     getDoneTaskCount: () => number,
     listNameExists: (name: string) => boolean;
+    getListIdForTask: (taskId: string) => string;
 }
 
 
 function generateId() {
-    return Math.random().toString(36).substr(2, 9);
+    return Math.random().toString(36).substring(2, 11);
 }
 
 
@@ -168,6 +181,13 @@ export function createTodoListsStore() {
         return list.tasks.filter(t => t.status === "done").length;
     }
 
+
+    function getListIdForTask(taskId = '') {
+        return listForTask(taskId)?.id || '';
+    }
+
+
+
     return {
         lists: store.lists,
         selectedListId,
@@ -185,7 +205,8 @@ export function createTodoListsStore() {
         clearAllDoneFromCurrentList,
         listCount,
         getDoneTaskCount,
-        listNameExists
+        listNameExists,
+        getListIdForTask,
     } as TodoStore & StoreActions;
 }
 
@@ -193,6 +214,8 @@ export type TodoStoreInstance = {
     store: TodoStore & StoreActions;
 }
 
+//TODO This might be in the wrong place. 
+// I dont trust AI here but it seeems to work.
 const storeInstance = createTodoListsStore();
 
 export default storeInstance;

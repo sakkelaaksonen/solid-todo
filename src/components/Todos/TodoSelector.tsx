@@ -1,0 +1,22 @@
+
+import { For, Show, type Component } from "solid-js";
+import store from "../../store/store.ts";
+import { IconCheck } from "../ui/Icons.tsx";
+
+const TodoSelector: Component = () => {
+  return (
+    <div class="mb-4 flex gap-2 items-center">
+      <For each={store.getLists()}>{list => (
+        <button class="btn btn-xs" classList={{
+          "btn-primary": store.selectedListId() !== list.id,
+          "btn-info": store.selectedListId() === list.id
+        }}
+          onClick={() => store.selectList(list.id)}>
+          <Show when={store.selectedListId() === list.id}><IconCheck /></Show>
+          {list.name}
+        </button>
+      )}</For>
+
+    </div>)
+}
+export default TodoSelector;

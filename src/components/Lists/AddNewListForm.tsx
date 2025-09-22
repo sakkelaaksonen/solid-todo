@@ -1,7 +1,8 @@
 import { Component, } from "solid-js";
-import { IconAdd } from "./Icons";
+import { IconAdd } from "../ui/Icons.tsx";
 import { createSignal } from "solid-js";
-import store, { TaskNamePattern } from "../store.ts";
+import store, { ListNameErrors, TaskNamePattern } from "../../store/store.ts";
+
 
 const AddNewListForm: Component = (props) => {
   const [newListName, setNewListName] = createSignal("");
@@ -11,7 +12,7 @@ const AddNewListForm: Component = (props) => {
   const handleAddList = (e: SubmitEvent) => {
     e.preventDefault();
     if (store.listNameExists(newListName())) {
-      setErrorMessage("List name already exists.");
+      setErrorMessage(ListNameErrors.exists);
       return false;
     }
     if (store.addList(newListName())) {

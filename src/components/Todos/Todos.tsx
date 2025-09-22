@@ -1,13 +1,15 @@
-import { createSignal, For, Show, Component } from "solid-js";
-import store, { TaskStatus } from "./store.ts";
-import type { Task } from "./store.ts";
-import TodoItems, { TodoIsEmpty } from "./components/TodoItems.jsx";
-import Filter from "./components/Filter.tsx";
-import AddNewTaskForm from "./components/AddNewTaskForm.tsx";
-import EditableListTitle from "./components/EditableListTitle.tsx";
+import { createSignal, Show, Component } from "solid-js";
+import store, { TaskStatus } from "../../store/store.ts";
+import type { Task } from "../../store/store.ts";
+import TodoItems from "./TodoItems.jsx";
+import TodoIsEmpty from "./TodosIsEmpty.tsx";
+import Filter from "./Filter.tsx";
+import AddNewTaskForm from "./AddNewTaskForm.tsx";
+import EditableListTitle from "../Lists/EditableListTitle.tsx";
 
 const Todos: Component = () => {
   const [newTaskDesc, setNewTaskDesc] = createSignal("");
+
   //This will be a component state and will not persist across reloads
   const [taskFilter, setTaskFilter] = createSignal<TaskStatus | "all">("all");
 
@@ -30,6 +32,10 @@ const Todos: Component = () => {
     store.clearAllDoneFromCurrentList();
 
 
+  const TodosFallback = () => (
+    <TodoIsEmpty filteredCount={filteredTasks().length} totalCount={store.currentList().tasks.length} />
+  );
+
   return (<>
 
     <div class="p-4">
@@ -37,11 +43,18 @@ const Todos: Component = () => {
       <EditableListTitle />
 
       <div class="divider"></div>
-      <AddNewTaskForm handleAddTask={handleAddTask} newTaskDesc={newTaskDesc()} setNewTaskDesc={setNewTaskDesc} />
+      <AddNewTaskForm
+        handleAddTask={handleAddTask}
+        newTaskDesc={newTaskDesc()}
+        setNewTaskDesc={setNewTaskDesc}
+      />
       <div class="divider"></div>
-      <Filter taskFilter={taskFilter()} setTaskFilter={setTaskFilter} filteredTasks={filteredTasks()} handleClearAllDone={handleClearAllDone} />
+      <Filter taskFilter={taskFilter()}
+        setTaskFilter={setTaskFilter}
+        filteredTasks={filteredTasks()}
+        handleClearAllDone={handleClearAllDone} />
 
-      <Show when={filteredTasks().length > 0} fallback={<TodoIsEmpty filteredCount={filteredTasks().length} totalCount={store.currentList().tasks.length} />}>
+      <Show when={filteredTasks().length > 0} fallback={TodosFallback()}>
         <TodoItems filteredTasks={filteredTasks()} />
       </Show>
 

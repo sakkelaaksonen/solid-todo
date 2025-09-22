@@ -1,7 +1,7 @@
 import { Component, createSignal, Show } from "solid-js";
-import Todos from "./Todos";
+import Todos from "./components/Todos/Todos.tsx";
 import Navi from "./components/Navi";
-import DrawerSide from "./components/DrawerSide.tsx";
+import DrawerSide from "./components/Lists/DrawerSide.tsx";
 
 const App: Component = () => {
 

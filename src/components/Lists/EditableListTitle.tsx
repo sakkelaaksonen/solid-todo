@@ -1,37 +1,36 @@
-import { Component, createSignal, Show } from "solid-js";
-import type { TodoStoreInstance } from "../store.ts";
-import { IconAdd, IconClose, IconEdit } from "./Icons.tsx";
-import store, { TaskNamePattern } from "../store.ts";
-import Modal from "./Modal";
+import { Component, createSignal, onMount, Show, createEffect } from "solid-js";
+import { IconAdd, IconClose, IconEdit } from "../ui/Icons.tsx";
+import store, { TaskNamePattern, ListNameErrors } from "../../store/store.ts";
+import Modal from "../ui/Modal.tsx";
 
 const EditableListTitle: Component = () => {
-
-
   const [editing, setEditing] = createSignal(false);
-  const [editName, setEditName] = createSignal(store.currentList().name || "");
+  const [editName, setEditName] = createSignal(store.currentList().name);
   const [isModalOpen, setIsModalOpen] = createSignal(false); // Track modal state
   const [errorMessage, setErrorMessage] = createSignal("");
 
   let inputRef: HTMLInputElement | undefined;
 
+  // Keep editName in sync with the current list name if it changes externally
+  createEffect(() => {
+    if (!editing()) {
+      setEditName(store.currentList().name);
+    }
+  });
+
   const startEditing = () => {
     setEditing(true);
-    setTimeout(() => {
-      inputRef?.focus(); // Focus the input when editing starts
-    }, 0); // Delay to ensure the input is rendered
   };
-
 
   const saveListName = () => {
     if (!inputRef?.checkValidity()) {
-      setErrorMessage("Invalid list name.");
+      setErrorMessage(ListNameErrors.invalid);
       inputRef?.reportValidity();
       return;
     }
 
-    //TODO AI made a mess again. Fix this.
     if (store.getLists().some(list => list.name === editName() && list.id !== store.currentList().id)) {
-      setErrorMessage("List name already exists.");
+      setErrorMessage(ListNameErrors.exists);
       return;
     }
 
@@ -52,8 +51,12 @@ const EditableListTitle: Component = () => {
   };
   const closeModal = () => {
     setIsModalOpen(false);
-  }
+  };
   const listName = () => store.currentList().name || "Unnamed List";
+
+  onMount(() => {
+    console.log("Mounted EditableListTitle with list name:", listName());
+  });
 
   return (
     <>
@@ -96,6 +99,7 @@ const EditableListTitle: Component = () => {
             classList={{
               "input-neutral": editing(),
             }}
+            autofocus
             disabled={!editing()}
             type="text"
             maxlength={60}

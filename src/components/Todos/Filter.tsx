@@ -1,6 +1,6 @@
 import { Component, Show } from "solid-js";
-import store, { type TaskStatus, type Task, type FilterTypes } from "../store.ts";
-import { IconClose } from "./Icons.tsx";
+import store, { type TaskStatus, type Task, type FilterTypes } from "../../store/store.ts";
+import { IconClose } from "../ui/Icons.tsx";
 
 type Props = {
   taskFilter: FilterTypes
