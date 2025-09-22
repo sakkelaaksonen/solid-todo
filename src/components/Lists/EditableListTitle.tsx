@@ -1,11 +1,11 @@
 import { Component, createSignal, onMount, Show, createEffect } from "solid-js";
 import { IconAdd, IconClose, IconEdit } from "../ui/Icons.tsx";
-import store, { TaskNamePattern, ListNameErrors } from "../../store/store.ts";
+import { type StoreProps, ListNameErrors, TaskNamePattern } from "../../store/store";
 import Modal from "../ui/Modal.tsx";
 
-const EditableListTitle: Component = () => {
+const EditableListTitle: Component<StoreProps> = (props) => {
   const [editing, setEditing] = createSignal(false);
-  const [editName, setEditName] = createSignal(store.currentList().name);
+  const [editName, setEditName] = createSignal(props.actions.currentList().name);
   const [isModalOpen, setIsModalOpen] = createSignal(false); // Track modal state
   const [errorMessage, setErrorMessage] = createSignal("");
 
@@ -14,7 +14,7 @@ const EditableListTitle: Component = () => {
   // Keep editName in sync with the current list name if it changes externally
   createEffect(() => {
     if (!editing()) {
-      setEditName(store.currentList().name);
+      setEditName(props.actions.currentList().name);
     }
   });
 
@@ -33,30 +33,32 @@ const EditableListTitle: Component = () => {
       return;
     }
 
-    if (store.getLists().some(list => list.name === editName() && list.id !== store.currentList().id)) {
+    if (props.actions.getLists().some(list => list.name === editName() && list.id !== props.actions.currentList().id)) {
       setErrorMessage(ListNameErrors.exists);
       return;
     }
 
-    if (editName().trim() !== "" && editName() !== store.currentList().name) {
-      store.editListName(store.currentList().id, editName().trim());
+    if (editName().trim() !== "" && editName() !== props.actions.currentList().name) {
+      props.actions.editListName(props.actions.currentList().id, editName().trim());
       setErrorMessage("");
     }
     setEditing(false);
   };
 
   const confirmRemoveList = () => {
-    store.deleteList(store.currentList().id); // Perform the remove action
+    props.actions.deleteList(props.actions.currentList().id); // Perform the remove action
     setIsModalOpen(false); // Close the modal
   };
 
   const openModal = () => {
     setIsModalOpen(true);
   };
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const listName = () => store.currentList().name;
+
+  const listName = () => props.actions.currentList().name;
 
 
   return (
@@ -144,9 +146,9 @@ const EditableListTitle: Component = () => {
           <h3 class="font-bold text-lg">Confirm Removal</h3>
           <p class="py-4">
             Are you sure you want to remove the list{" "}
-            <strong>{store.currentList().name}</strong>?
+            <strong>{props.actions.currentList().name}</strong>?
           </p>
-          <div class="modal-action">
+          <div class="modal-action justify-center">
             <button class="btn btn-error" onClick={confirmRemoveList}>
               Confirm
             </button>

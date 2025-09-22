@@ -7,31 +7,41 @@ import { Component, JSX } from "solid-js";
  *  classes used so far:
  * btn btn-sm btn-square btn-ghost hover:btn-primary flex-none
  * btn btn-square btn-ghost btn-sm hover:btn-warning join-item
+ * 
+ * Not in use thought because I cannot find any benefits for this application.
+ * 
  */
 
 
+const VariantClasses: Record<ButtonProps["variant"], string> = {
+  squareGhost: 'btn-square btn-ghost hover:btn-primary',
+  primary: "btn-primary",
+  secondary: "btn-secondary",
+  ghost: "btn-ghost hover:btn-primary",
+};
 
 type ButtonProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "primary" | "secondary" | "ghost";
+  variant: "primary" | "secondary" | "ghost" | "squareGhost";
   size?: "sm" | "md" | "lg";
 };
 
 const Button: Component<ButtonProps> = (props) => {
   const { children, variant, size, ...rest } = props;
 
-  const btnClasses = () => ({
-    "btn btn-square btn-ghost hover:btn-primary": true,
-    "btn-sm": props.size === "sm",
-    "btn-md": props.size === "md",
-    "btn-lg": props.size === "lg",
-    "btn-primary": props.variant === "primary",
+  const getVariantClasses = () => {
+    return VariantClasses[variant];
+  };
 
-    "btn-secondary": props.variant === "secondary",
-    "btn-ghost hover:btn-primary": props.variant === "ghost" || !props.variant,
+  const btnClasses = () => ({
+    "btn": true,
+    "btn-sm": size === "sm",
+    "btn-md": size === "md",
+    "btn-lg": size === "lg",
 
   });
 
   return (<button
+    class={getVariantClasses()}
     classList={btnClasses()}
     {...rest}
   >

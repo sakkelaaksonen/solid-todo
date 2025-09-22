@@ -1,13 +1,15 @@
 import { createSignal, Show, Component } from "solid-js";
-import store, { TaskStatus } from "../../store/store.ts";
+import { useTodoStore, TaskStatus } from "../../store/store.ts";
 import type { Task } from "../../store/store.ts";
 import TodoItems from "./TodoItems.jsx";
 import TodoIsEmpty from "./TodosIsEmpty.tsx";
 import Filter from "./Filter.tsx";
 import AddNewTaskForm from "./AddNewTaskForm.tsx";
 import EditableListTitle from "../Lists/EditableListTitle.tsx";
+import { StoreProps } from "../../store/store.ts";
 
-const Todos: Component = () => {
+const Todos: Component<StoreProps> = (props) => {
+
   const [newTaskDesc, setNewTaskDesc] = createSignal("");
 
   //This will be a component state and will not persist across reloads
@@ -17,30 +19,30 @@ const Todos: Component = () => {
   // Task operations
   const handleAddTask = (e: SubmitEvent) => {
     e.preventDefault();
-    if (store.selectedListId()) {
-      store.addTask(store.selectedListId()!, newTaskDesc());
+    if (props.actions.selectedListId()) {
+      props.actions.addTask(props.actions.selectedListId()!, newTaskDesc());
       setNewTaskDesc("");
     }
   };
   const filteredTasks = (): Task[] => {
-    if (!store.currentList()) return [];
-    if (taskFilter() === "all") return store.currentList()!.tasks;
-    return store.currentList()!.tasks.filter(t => t.status === taskFilter());
+    if (!props.actions.currentList()) return [];
+    if (taskFilter() === "all") return props.actions.currentList()!.tasks;
+    return props.actions.currentList()!.tasks.filter(t => t.status === taskFilter());
   };
 
   const handleClearAllDone = () =>
-    store.clearAllDoneFromCurrentList();
+    props.actions.clearAllDoneFromCurrentList();
 
 
   const TodosFallback = () => (
-    <TodoIsEmpty filteredCount={filteredTasks().length} totalCount={store.currentList().tasks.length} />
+    <TodoIsEmpty filteredCount={filteredTasks().length} totalCount={props.actions.currentList().tasks.length} />
   );
 
   return (<>
 
     <div class="p-4">
       <div class="divider"></div>
-      <EditableListTitle />
+      <EditableListTitle store={props.store} actions={props.actions} />
 
       <div class="divider"></div>
       <AddNewTaskForm
@@ -49,13 +51,16 @@ const Todos: Component = () => {
         setNewTaskDesc={setNewTaskDesc}
       />
       <div class="divider"></div>
-      <Filter taskFilter={taskFilter()}
+      <Filter
+        store={props.store}
+        actions={props.actions}
+        taskFilter={taskFilter()}
         setTaskFilter={setTaskFilter}
         filteredTasks={filteredTasks()}
         handleClearAllDone={handleClearAllDone} />
 
       <Show when={filteredTasks().length > 0} fallback={TodosFallback()}>
-        <TodoItems filteredTasks={filteredTasks()} />
+        <TodoItems filteredTasks={filteredTasks()} store={props.store} actions={props.actions} />
       </Show>
 
     </div></>

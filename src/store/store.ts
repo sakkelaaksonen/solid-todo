@@ -2,7 +2,6 @@
 /**
  * Store
  * TODO: 
- * - separate actions
  * - Typed errors and error messages 
  */
 
@@ -54,6 +53,12 @@ export const ListNameErrors: Record<string, string> = {
 
 
 
+export type StoreProps = {
+  store: TodoStore;
+  actions: StoreActions;
+}
+
+
 export type StoreActions = {    
     addList: (name: string) => boolean;
     deleteList: (id: string) => void;
@@ -86,7 +91,7 @@ function isValidListName(name: string, lists: TodoList[]): boolean {
 }
 
 
-export function createTodoListsStore() {
+export function useTodoStore(): [TodoStore, StoreActions] {
     const initialLists: TodoList[] = [
         {
             id: "sample-list",
@@ -150,8 +155,12 @@ export function createTodoListsStore() {
         return store.selectedListId;
     }
 
-    function listForTask(taskId: string) {
-        return store.lists.find(l => l.tasks.some(t => t.id === taskId));
+    function listForTask(taskId: string): TodoList {
+        const list = store.lists.find(l => l.tasks.some(t => t.id === taskId));
+        if (!list) {
+            throw new Error("List for task not found");
+        }
+        return list;
     }
 
     function currentList() {
@@ -188,9 +197,7 @@ export function createTodoListsStore() {
 
 
 
-    return {
-        lists: store.lists,
-        selectedListId,
+    return [store, {
         addList,
         deleteList,
         editListName,
@@ -207,15 +214,6 @@ export function createTodoListsStore() {
         getDoneTaskCount,
         listNameExists,
         getListIdForTask,
-    } as TodoStore & StoreActions;
+        selectedListId,
+    }];
 }
-
-export type TodoStoreInstance = {
-    store: TodoStore & StoreActions;
-}
-
-//TODO This might be in the wrong place. 
-// I dont trust AI here but it seeems to work.
-const storeInstance = createTodoListsStore();
-
-export default storeInstance;

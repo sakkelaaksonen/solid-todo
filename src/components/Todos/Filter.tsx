@@ -1,53 +1,55 @@
 import { Component, Show } from "solid-js";
-import store, { type TaskStatus, type Task, type FilterTypes } from "../../store/store.ts";
+import type { StoreProps, TaskStatus, Task, FilterTypes } from "../../store/store.ts";
 import { IconClose } from "../ui/Icons.tsx";
 
-type Props = {
+type Props = StoreProps & {
   taskFilter: FilterTypes
   setTaskFilter: (value: FilterTypes) => void;
   filteredTasks: Task[];
   handleClearAllDone: () => void;
 }
 
-const Filter: Component<Props> = (props) => (
-  <form class="mb-2 flex flex-wrap gap-2 bg-primary-content p-2 rounded-box items-center justify-start">
-    <label for="filter" class="label" aria-label="Task filter">
-      <span class="foo md:inline">Filter:</span>
+const Filter: Component<Props> = (props) => {
 
-      <select id="filter" class="w-24 select select-primary" value={props.taskFilter} onInput={e => props.setTaskFilter(e.currentTarget.value as TaskStatus | "all")}>
-        <option value="all">All</option>
-        <option value="todo">Todo</option>
-        <option value="doing">Doing</option>
-        <option value="done">Done</option>
-      </select>
-    </label>
-    <Show when={props.taskFilter !== 'all'}>
-      <button title="Clear filter, show all tasks"
-        aria-label="Clear filter, show all tasks"
-        class="flex-none text-primary"
+  return (
+    <form class="mb-2 flex flex-wrap gap-2 bg-primary-content p-2 rounded-box items-center justify-start">
+      <label for="filter" class="label" aria-label="Task filter">
+        <span class="foo md:inline">Filter:</span>
 
-        onClick={() => props.setTaskFilter("all")}>
-        <IconClose />
-      </button>
-    </Show>
-    <div class="flex-1 flex md:justify-end items-center gap-4">
-      <span class="label" classList={{
-        "text-warning": props.filteredTasks.length === 0,
-        'text-primary': props.filteredTasks.length > 0
-      }}>
-        <span class="hidden md:inline">Showing </span>
-        {props.filteredTasks.length}
-        /
-        {store.currentList().tasks.length}{" "}
-        <span class="hidden md:inline">
-          {store.listCount() === 1 ? "task" : "tasks"}. </span>
-      </span>
-      <button
-        disabled={store.getDoneTaskCount() === 0}
-        onClick={props.handleClearAllDone}
-        class="btn btn-neutral" >Clear all done tasks</button>
-    </div >
-  </form >
-)
+        <select id="filter" class="w-24 select select-primary" value={props.taskFilter} onInput={e => props.setTaskFilter(e.currentTarget.value as TaskStatus | "all")}>
+          <option value="all">All</option>
+          <option value="todo">Todo</option>
+          <option value="doing">Doing</option>
+          <option value="done">Done</option>
+        </select>
+      </label>
+      <Show when={props.taskFilter !== 'all'}>
+        <button title="Clear filter, show all tasks"
+          aria-label="Clear filter, show all tasks"
+          class="flex-none text-primary"
+          onClick={() => props.setTaskFilter("all")}>
+          <IconClose />
+        </button>
+      </Show>
+      <div class="flex-1 flex md:justify-end items-center gap-4">
+        <span class="label" classList={{
+          "text-warning": props.filteredTasks.length === 0,
+          'text-primary': props.filteredTasks.length > 0
+        }}>
+          <span class="hidden md:inline">Showing </span>
+          {props.filteredTasks.length}
+          /
+          {props.actions.currentList().tasks.length}{" "}
+          <span class="hidden md:inline">
+            {props.actions.listCount() === 1 ? "task" : "tasks"}. </span>
+        </span>
+        <button
+          disabled={props.actions.getDoneTaskCount() === 0}
+          onClick={props.handleClearAllDone}
+          class="btn btn-neutral" >Clear all done tasks</button>
+      </div >
+    </form >
+  )
+}
 
 export default Filter;

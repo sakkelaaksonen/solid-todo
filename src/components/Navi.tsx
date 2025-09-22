@@ -1,9 +1,10 @@
 import { Component } from "solid-js";
-import EditableListTitle from "./Lists/EditableListTitle.tsx";
-// import AddNewListForm from "./AddNewListForm.tsx";
 import ListSelector from "./Lists/ListSelector.tsx";
 import { IconBars } from "./ui/Icons.tsx";
-type Props = {
+import type { StoreProps } from "../store/store.ts";
+
+
+type Props = StoreProps & {
   onClickNavi?: () => void;
 }
 const Navi: Component<Props> = (props) => {
@@ -18,7 +19,7 @@ const Navi: Component<Props> = (props) => {
 
 
       <div class="flex-none">
-        <ListSelector />
+        <ListSelector store={props.store} actions={props.actions} />
       </div>
       <div class="flex-1"></div>
       <div class="flex-none pe-4">

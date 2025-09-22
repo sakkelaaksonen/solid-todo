@@ -1,24 +1,24 @@
 import { Component, createSignal, Show } from "solid-js";
-import store from "../../store/store";
+import { type StoreProps } from "../../store/store";
 import { For } from "solid-js";
 import { IconLookingGlass, IconClose, IconCheck, IconListBullets, IconInfo } from "../ui/Icons";
 
 
-type Props = {
+type Props = StoreProps & {
   onSelectList?: (listId: string) => void;
 }
 
-const DrawerListSelector: Component<Props> = ({ onSelectList }) => {
+const DrawerListSelector: Component<Props> = (props) => {
   const [searchQuery, setSearchQuery] = createSignal("");
 
   const handleSelect = (listId: string) => {
-    store.selectList(listId);
-    onSelectList?.(listId);
+    props.actions.selectList(listId);
+    props.onSelectList?.(listId);
   }
 
 
   const filteredLists = () => {
-    return store.getLists().filter(list => list.name.toLowerCase().includes(searchQuery().toLowerCase()));
+    return props.actions.getLists().filter(list => list.name.toLowerCase().includes(searchQuery().toLowerCase()));
   };
 
   return (
@@ -48,9 +48,7 @@ const DrawerListSelector: Component<Props> = ({ onSelectList }) => {
       <ul class="menu min-h-full w-full">
         <For each={filteredLists().reverse()} fallback={<li>No lists found</li>}>{list => (
           <li class="pb-2">
-
-
-            <Show when={store.selectedListId() === list.id}>
+            <Show when={props.actions.selectedListId() === list.id}>
               <span class="text-lg join-item w-full text-start text-primary">
                 <span class="">
                   <IconCheck />
@@ -60,7 +58,7 @@ const DrawerListSelector: Component<Props> = ({ onSelectList }) => {
 
             </Show>
 
-            <Show when={store.selectedListId() !== list.id}>
+            <Show when={props.actions.selectedListId() !== list.id}>
               <button
                 onClick={() => handleSelect(list.id)}
                 aria-label={`Select list ${list.name}`}

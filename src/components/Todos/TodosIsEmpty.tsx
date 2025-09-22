@@ -1,10 +1,9 @@
 
 import { type Component } from "solid-js";
 
-interface TodoIsEmptyProps {
+type TodoIsEmptyProps = {
   filteredCount: number;
   totalCount: number;
-
 }
 
 const TodoIsEmpty: Component<TodoIsEmptyProps> = (props) => (
@@ -14,6 +13,5 @@ const TodoIsEmpty: Component<TodoIsEmptyProps> = (props) => (
       "No tasks in this list."}
   </div>
 );
-
 
 export default TodoIsEmpty;

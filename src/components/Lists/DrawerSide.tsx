@@ -1,15 +1,17 @@
 import createFocusTrap from 'solid-focus-trap'
-import { Component, createSignal, onCleanup, Show } from "solid-js";
+import { Component, createSignal, Show } from "solid-js";
 import DrawerListSelector from "./DrawerListSelector.tsx";
 import { IconListBullets } from "../ui/Icons.tsx";
-import store from "../../store/store.ts";
+import { type StoreProps } from "../../store/store";
 import AddNewListForm from "./AddNewListForm.tsx";
 
-const DrawerSide: Component<{
+
+type Props = StoreProps & {
   isOpen: () => boolean,
   onClose: () => void
+}
 
-}> = (props) => {
+const DrawerSide: Component<Props> = (props) => {
   const [contentRef, setContentRef] = createSignal<HTMLElement | null>(null)
   const [initialFocusRef, setInitialFocusRef] =
     createSignal<HTMLElement | null>(null)
@@ -33,7 +35,7 @@ const DrawerSide: Component<{
 
           <div class="flex items-center gap-2 my-4 pe-4">
 
-            <h2>All My Todo Lists <span class="font-bold text-sm">({store.listCount()}) </span> </h2>
+            <h2>All My Todo Lists <span class="font-bold text-sm">({props.actions.listCount()}) </span> </h2>
             <span class="flex-1"></span>
             <button
               onClick={handleClose}
@@ -45,10 +47,10 @@ const DrawerSide: Component<{
           </div>
           <div class="divider"></div>
 
-          <AddNewListForm />
+          <AddNewListForm store={props.store} actions={props.actions} />
 
           <div class="divider"></div>
-          <DrawerListSelector onSelectList={handleClose} />
+          <DrawerListSelector onSelectList={handleClose} store={props.store} actions={props.actions} />
         </div>
       </div>
     </Show>
