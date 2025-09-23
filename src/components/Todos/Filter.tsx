@@ -43,7 +43,7 @@ const Filter: Component<Props> = (props) => {
           <IconClose />
         </button>
       </Show>
-      <div class="flex-1 flex md:justify-end items-center gap-4">
+      <div class="flex-1 flex justify-end items-center gap-4">
         <span class="label" classList={{
           "text-warning": props.filteredTasks.length === 0,
           'text-primary': props.filteredTasks.length > 0
@@ -58,7 +58,7 @@ const Filter: Component<Props> = (props) => {
         <button
           disabled={doneTaskCount() === 0}
           onClick={props.handleClearAllDone}
-          class="btn btn-neutral" >Clear all done tasks</button>
+          class="btn btn-neutral" >Clear done</button>
       </div >
     </form >
   )

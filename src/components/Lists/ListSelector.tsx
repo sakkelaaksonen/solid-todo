@@ -6,7 +6,7 @@ const ListSelector: Component<StoreProps> = (props) => {
 
   return (
     <label class="select select-primary  ">
-      <span class="label">Select a list</span>
+      <span class="label">Selected list</span>
       <select
         id="list-select"
         class="select select-neutral"

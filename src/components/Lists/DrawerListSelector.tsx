@@ -47,7 +47,7 @@ const DrawerListSelector: Component<Props> = (props) => {
       </label>
       <div class="divider"></div>
       <ul class="menu min-h-full w-full">
-        <For each={filteredLists().reverse()} fallback={<li>No lists found</li>}>{list => (
+        <For each={filteredLists().reverse()} fallback={<li class="text-warning">No lists found</li>}>{list => (
           <li class="pb-2">
             <Show when={props.actions.selectedListId() === list.id}>
               <span class="text-lg join-item w-full text-start text-primary">

@@ -38,6 +38,7 @@ const DrawerSide: Component<Props> = (props) => {
             <h2>All My Todo Lists <span class="font-bold text-sm">({props.actions.listCount()}) </span> </h2>
             <span class="flex-1"></span>
             <button
+              title="Close List Manager"
               onClick={handleClose}
               ref={setInitialFocusRef} class="btn btn-xs btn-ghost hover:text-primary">
               <IconListBullets />
