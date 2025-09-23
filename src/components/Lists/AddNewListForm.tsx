@@ -44,7 +44,7 @@ const AddNewListForm: Component<StoreProps> = (props) => {
         </label>
         <button class="btn btn-primary mt-2">
           <IconAdd />
-          Add List</button>
+          Add New List</button>
 
         <div class="validator-hint text-accent">Max 60 characters, letters and numbers only</div>
 

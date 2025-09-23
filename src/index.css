@@ -48,29 +48,24 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--color-primary);
+
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  gap: 52px;
+
   z-index: 9999;
   opacity: 1;
   transition: opacity 1s ease;
   color: var(--color-primary-content);
+  animation: fadeOut 1s ease 1s forwards;
+  background-color: var(--color-primary);
 }
 
 .fullscreen-loader.hidden {
   opacity: 0;
   pointer-events: none;
-}
-
-/* Automatically hide the loader after 1 second */
-#loader {
-  animation: fadeOut 1s ease 1s forwards;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 52px;
 }
 
 .loader-icon {

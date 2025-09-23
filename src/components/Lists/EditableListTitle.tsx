@@ -1,5 +1,5 @@
 import { Component, createSignal, onMount, Show, createEffect } from "solid-js";
-import { IconAdd, IconClose, IconEdit } from "../ui/Icons.tsx";
+import { IconAdd, IconClose, IconEdit, IconTrashcan } from "../ui/Icons.tsx";
 import { type StoreProps, ListNameErrors, TaskNamePattern } from "../../store/store";
 import Modal from "../ui/Modal.tsx";
 
@@ -75,27 +75,31 @@ const EditableListTitle: Component<StoreProps> = (props) => {
             </span>
           </h1>
           <div class="divider divider-horizontal"></div>
-          <button
-            class="btn  btn-square btn-ghost hover:btn-primary flex-none"
-            onClick={startEditing}
-            aria-label={`Edit list name ${listName()}`}
-          >
-            <IconEdit />
-          </button>
-          <span class="divider divider-horizontal"></span>
-          <button
-            aria-label="Remove list"
-            disabled={editing()}
-            class="btn btn-square btn-ghost hover:btn-warning join-item"
-            onClick={openModal} // Open the modal
-          >
-            <IconClose />
-          </button>
+          <div class="join flex-grow">
+            <button
+              class="btn btn-ghost hover:btn-primary flex-none join-item"
+              onClick={startEditing}
+              aria-label={`Edit list name ${listName()}`}
+            >
+              <IconEdit />
+              <span class="hidden md:inline">Edit name</span>
+            </button>
+
+            <button
+              aria-label="Remove list"
+              disabled={editing()}
+              class="btn btn-ghost hover:btn-warning join-item"
+              onClick={openModal} // Open the modal
+            >
+              <IconTrashcan />
+              <span class="hidden md:inline">Remove</span>
+            </button>
+          </div>
         </div>
       </Show>
 
       <Show when={editing()}>
-        <div class="label validator floating-label join">
+        <div class="label validator floating-label join gap-1">
           <input
             ref={inputRef}
             class="input join-item text-lg font-bold"
@@ -124,15 +128,16 @@ const EditableListTitle: Component<StoreProps> = (props) => {
           <span class="validator-hint">Max 60 characters, letters and numbers only</span>
 
           <span class="label text-primary">Max 60 letters and numbers</span>
-          {errorMessage() && <div class="px-2 text-error text">{errorMessage()}</div>}
+
           <button
-            class="btn btn-primary join-item"
+            class="btn btn-primary join-item gap-0"
             onClick={saveListName}
             aria-label={`Edit list name ${listName()}`}
           >
             <IconAdd />
             Save
           </button>
+          {errorMessage() && <div class="join-item bg-neutral text-warning flex items-center px-4">{errorMessage()}</div>}
         </div>
       </Show>
 

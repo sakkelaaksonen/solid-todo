@@ -38,13 +38,6 @@ describe("Filter", () => {
 
     const select = getByRole("combobox");
 
-    // Add a console log to debug the event with type assertion
-    select.addEventListener("input", (e) => {
-      const target = e.currentTarget as HTMLSelectElement | null;
-      if (target) {
-        console.log("Input event triggered", target.value);
-      }
-    });
 
     await fireEvent.input(select, { target: { value: "done" } }); // Use fireEvent.input to match onInput handler
 
@@ -94,7 +87,6 @@ describe("Filter", () => {
     ));
 
     const button = getByText("Clear all done tasks") as HTMLButtonElement; // Cast button to HTMLButtonElement
-    console.log("Button disabled state:", button.disabled); // Debug log for button state
     expect(button).toBeDisabled();
   });
 });

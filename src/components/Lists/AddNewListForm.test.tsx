@@ -3,6 +3,10 @@ import AddNewListForm from "./AddNewListForm";
 import type { StoreActions, TodoStore } from "../../store/store";
 import userEvent from "@testing-library/user-event"
 import { render } from "@solidjs/testing-library"
+
+const BUTTON_SELECTOR = "Add New List";
+const INPUT_SELECTOR = "Add a new list";
+
 describe("AddNewListForm", () => {
 
   let mockActions: StoreActions;
@@ -26,8 +30,8 @@ describe("AddNewListForm", () => {
       <AddNewListForm actions={mockActions} store={mockStore} />
     ));
 
-    expect(getByLabelText("Add a new list")).toBeInTheDocument();
-    expect(getByText("Add List")).toBeInTheDocument();
+    expect(getByLabelText(INPUT_SELECTOR)).toBeInTheDocument();
+    expect(getByText(BUTTON_SELECTOR)).toBeInTheDocument();
   });
 
   it("should call addList when form is submitted", async () => {
@@ -37,8 +41,8 @@ describe("AddNewListForm", () => {
       <AddNewListForm store={mockStore} actions={mockActions} /> // Provide complete mock store
     ));
 
-    const input = getByLabelText("Add a new list");
-    const button = getByText("Add List");
+    const input = getByLabelText(INPUT_SELECTOR);
+    const button = getByText(BUTTON_SELECTOR);
 
     const user = userEvent.setup(); // Setup userEvent
     await user.type(input, "New List"); // Use userEvent to type
@@ -59,8 +63,8 @@ describe("AddNewListForm", () => {
       <AddNewListForm store={mockStore} actions={mockActions} /> // Provide complete mock store
     ));
 
-    const input = getByLabelText("Add a new list");
-    const button = getByText("Add List");
+    const input = getByLabelText(INPUT_SELECTOR);
+    const button = getByText(BUTTON_SELECTOR);
 
     const user = userEvent.setup(); // Setup userEvent
     await user.type(input, "Duplicate List"); // Use userEvent to type
@@ -75,10 +79,9 @@ describe("AddNewListForm", () => {
       <AddNewListForm actions={mockActions} store={mockStore} />
     ));
 
-    const input = getByLabelText("Add a new list");
-    const button = getByText("Add List");
+    const input = getByLabelText(INPUT_SELECTOR);
+    const button = getByText(BUTTON_SELECTOR);
 
-    // await userEvent.click(input);
     await userEvent.type(input, "New List");
     await userEvent.click(button);
 

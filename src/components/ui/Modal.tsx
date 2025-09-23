@@ -28,9 +28,9 @@ const Modal: Component<ModalProps> = (props) => {
   };
 
 
-  onCleanup(() => {
-    console.log('Modal unmounted. Sometimes this fails and focus trap fails on next open')
-  });
+  // onCleanup(() => {
+  //   console.log('Modal unmounted. Sometimes this fails and focus trap fails on next open')
+  // });
   return (
     <Show when={props.isOpen}>
       <dialog

@@ -20,10 +20,15 @@ const Filter: Component<Props> = (props) => {
 
   return (
     <form class="mb-2 flex flex-wrap gap-2 bg-primary-content p-2 rounded-box items-center justify-start">
-      <label for="filter" class="label" aria-label="Task filter">
+      <label for="filter" class="label" aria-label="Task filter" >
         <span class="foo md:inline">Filter:</span>
 
-        <select id="filter" class="w-24 select select-primary" value={props.taskFilter} onInput={e => props.setTaskFilter(e.currentTarget.value as TaskStatus | "all")}>
+        <select
+          id="filter"
+          class="w-24 select select-primary"
+          value={props.taskFilter}
+          onInput={e => props.setTaskFilter(e.currentTarget.value as TaskStatus | "all")}
+          data-testId="task-filter">
           <option value="all">All</option>
           <option value="todo">Todo</option>
           <option value="doing">Doing</option>

@@ -1,6 +1,6 @@
 import { Component, For } from "solid-js";
 import { type StoreProps, type Task, type TaskStatus, TaskStatusText } from "../../store/store.ts";
-import { IconClose, } from "../ui/Icons.tsx";
+import { IconClose, IconTrashcan, } from "../ui/Icons.tsx";
 import TodoStatusInput from "./TodoStatusInput.tsx";
 
 type TodoItemsProps = StoreProps & {
@@ -19,7 +19,6 @@ const TodoItems: Component<TodoItemsProps> = (props) => {
 
         <label class="select select-primary select-sm md:hidden">
           <select
-            id="list-select"
             class="select select-neutral select-sm"
             value={task.status}
             onInput={e => props.actions.changeTaskStatus(
@@ -36,6 +35,7 @@ const TodoItems: Component<TodoItemsProps> = (props) => {
 
         <label for={`edit-${task.id}`} class="join">
           <input
+            name={`edit-${task.id}`}
             type="text"
             value={task.description}
             onInput={e => props.actions.editTaskDescription(props.actions.getListIdForTask(task.id), task.id, e.currentTarget.value)}
@@ -48,7 +48,8 @@ const TodoItems: Component<TodoItemsProps> = (props) => {
             onClick={() => props.actions.deleteTask(props.actions.getListIdForTask(task.id), task.id)}
             aria-label="Remove task"
           >
-            <IconClose />
+            <span className="scale-75"><IconTrashcan /></span>
+
             <span class="hidden md:inline-block">Remove</span>
           </button>
         </label>
