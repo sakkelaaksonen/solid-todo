@@ -59,6 +59,9 @@ describe("TodoStatusInput", () => {
       "task-1",
       "doing"
     );
+    expect(input).toBeChecked();
+
+
   });
 
   it("should apply the correct styles based on status", () => {
@@ -76,5 +79,6 @@ describe("TodoStatusInput", () => {
 
     const label = getByLabelText("Done").parentElement;
     expect(label).toHaveClass("btn-primary");
+    // And so on...
   });
 });

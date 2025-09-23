@@ -50,7 +50,7 @@ const DrawerSide: Component<Props> = (props) => {
           <AddNewListForm store={props.store} actions={props.actions} />
 
           <div class="divider"></div>
-          <DrawerListSelector onSelectList={handleClose} store={props.store} actions={props.actions} />
+          <DrawerListSelector onSelectList={handleClose} actions={props.actions} />
         </div>
       </div>
     </Show>

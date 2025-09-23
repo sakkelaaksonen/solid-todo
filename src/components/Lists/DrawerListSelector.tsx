@@ -1,10 +1,11 @@
 import { Component, createSignal, Show } from "solid-js";
-import { type StoreProps } from "../../store/store";
+import { type StoreActions, StoreProps } from "../../store/store";
 import { For } from "solid-js";
 import { IconLookingGlass, IconClose, IconCheck, IconListBullets, IconInfo } from "../ui/Icons";
 
 
-type Props = StoreProps & {
+type Props = {
+  actions: StoreActions;
   onSelectList?: (listId: string) => void;
 }
 
