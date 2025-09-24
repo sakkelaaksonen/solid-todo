@@ -4,6 +4,8 @@ import type { TaskStatus, StoreActions } from "../../store/store.ts";
 import Filter from "./Filter";
 import { storeSetup } from "../../testSetup.ts";
 
+export const CLEAR_DONE_BUTTON_TEXT = "Clear done";
+
 describe("Filter", () => {
   it("should render the filter options and task counts", () => {
     const { getByLabelText, getByText } = render(() => (
@@ -38,7 +40,6 @@ describe("Filter", () => {
 
     const select = getByRole("combobox");
 
-
     await fireEvent.input(select, { target: { value: "done" } }); // Use fireEvent.input to match onInput handler
 
     expect(mockSetTaskFilter).toHaveBeenCalledWith("done");
@@ -58,7 +59,7 @@ describe("Filter", () => {
       />
     ));
 
-    const button = getByText("Clear all done tasks");
+    const button = getByText(CLEAR_DONE_BUTTON_TEXT);
     await fireEvent.click(button);
 
     expect(mockHandleClearAllDone).toHaveBeenCalled();
@@ -77,7 +78,7 @@ describe("Filter", () => {
 
     const { getByText } = render(() => (
       <Filter
-        actions={storeSetup.actions} // Use actions from storeSetup
+        actions={storeSetup.actions}
         taskFilter="all"
         setTaskFilter={vi.fn()}
         filteredTasks={[]} // No filtered tasks
@@ -86,7 +87,7 @@ describe("Filter", () => {
       />
     ));
 
-    const button = getByText("Clear all done tasks") as HTMLButtonElement; // Cast button to HTMLButtonElement
+    const button = getByText(CLEAR_DONE_BUTTON_TEXT);
     expect(button).toBeDisabled();
   });
 });

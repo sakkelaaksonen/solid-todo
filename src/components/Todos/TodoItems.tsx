@@ -11,8 +11,6 @@ const TodoItems: Component<TodoItemsProps> = (props) => {
   return (
     <ul class="list bg-primary-content rounded-box ">
       <For each={[...props.filteredTasks].reverse()}>{task => (<li class="list-row flex items-center gap-2 p-2">
-
-
         <label for={`edit-${task.id}`} class="flex-grow">
           <input
             name={`edit-${task.id}`}
@@ -23,8 +21,8 @@ const TodoItems: Component<TodoItemsProps> = (props) => {
             aria-label="Edit task description"
             classList={{ "input-decoration-line text-secondary": task.status === "done" }}
           />
-
         </label>
+
         <span class="join border-neutral rounded-box hidden md:flex">
           <TodoStatusInput actions={props.actions} task={task} status="todo" id={`todo-${task.id}`} />
           <TodoStatusInput actions={props.actions} task={task} status="doing" id={`doing-${task.id}`} />
@@ -46,7 +44,7 @@ const TodoItems: Component<TodoItemsProps> = (props) => {
             )}</For>
           </select >
         </label >
-        <button
+        <button data-testId={`delete-task-button-${task.id}`}
           class="btn border-neutral hover:btn-warning focus:btn-warning join-item"
           onClick={() => props.actions.deleteTask(props.actions.getListIdForTask(task.id), task.id)}
           aria-label="Remove task"

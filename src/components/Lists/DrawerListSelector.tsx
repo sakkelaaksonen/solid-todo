@@ -3,7 +3,6 @@ import { type StoreActions, StoreProps } from "../../store/store";
 import { For } from "solid-js";
 import { IconLookingGlass, IconClose, IconCheck, IconListBullets, IconInfo } from "../ui/Icons";
 
-
 type Props = {
   actions: StoreActions;
   onSelectList?: (listId: string) => void;
@@ -16,7 +15,6 @@ const DrawerListSelector: Component<Props> = (props) => {
     props.actions.selectList(listId);
     props.onSelectList?.(listId);
   }
-
 
   const filteredLists = () => {
     return props.actions.getLists().filter(list => list.name.toLowerCase().includes(searchQuery().toLowerCase()));
@@ -56,7 +54,6 @@ const DrawerListSelector: Component<Props> = (props) => {
                 </span>
                 {list.name}
               </span>
-
             </Show>
 
             <Show when={props.actions.selectedListId() !== list.id}>

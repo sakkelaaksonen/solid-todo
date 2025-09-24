@@ -45,9 +45,9 @@ const mockStore: TodoStore = {
       id: "list-2",
       name: "Sample Two",
       tasks: [
-        { id: "task-1", description: "Task 1", status: "todo" as TaskStatus },
-        { id: "task-2", description: "Task 2", status: "doing" as TaskStatus },
-        { id: "task-3", description: "Task 3", status: "done" as TaskStatus },
+        { id: "task-21", description: "Task 21", status: "todo" as TaskStatus },
+        { id: "task-22", description: "Task 22", status: "doing" as TaskStatus },
+        { id: "task-23", description: "Task 23", status: "done" as TaskStatus },
       ],
     },
   ],
