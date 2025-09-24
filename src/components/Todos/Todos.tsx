@@ -41,10 +41,10 @@ const Todos: Component<StoreProps> = (props) => {
   return (<>
 
     <div class="p-4">
-      <div class="divider"></div>
+      <div class="divider max-md:hidden"></div>
       <EditableListTitle store={props.store} actions={props.actions} />
 
-      <div class="divider mb-12"></div>
+      <div class="divider mb-12 "></div>
       <AddNewTaskForm
         handleAddTask={handleAddTask}
         newTaskDesc={newTaskDesc()}

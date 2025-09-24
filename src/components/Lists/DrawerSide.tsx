@@ -29,7 +29,7 @@ const DrawerSide: Component<Props> = (props) => {
 
   return (
 
-    <div class="drawer-side min-h-full">
+    <aside class="drawer-side min-h-full">
       <button
         aria-label="Close List Manager"
         onClick={handleClose}
@@ -59,8 +59,7 @@ const DrawerSide: Component<Props> = (props) => {
           <DrawerListSelector onSelectList={handleClose} actions={props.actions} />
         </Show>
       </div>
-
-    </div >
+    </aside>
 
   )
 }

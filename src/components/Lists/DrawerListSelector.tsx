@@ -46,7 +46,7 @@ const DrawerListSelector: Component<Props> = (props) => {
       <div class="divider"></div>
       <ul class="menu min-h-full w-full">
         <For each={filteredLists().reverse()} fallback={<li class="text-warning">No lists found</li>}>{list => (
-          <li class="pb-2">
+          <li class="container">
             <Show when={props.actions.selectedListId() === list.id}>
               <span class="text-lg join-item w-full text-start text-primary">
                 <span class="">
@@ -60,13 +60,14 @@ const DrawerListSelector: Component<Props> = (props) => {
               <button
                 onClick={() => handleSelect(list.id)}
                 aria-label={`Select list ${list.name}`}
+
               >
                 <span class="scale-75">
                   <Show when={list.tasks.length > 0} fallback={<IconInfo />}>
                     <IconListBullets />
                   </Show>
                 </span>
-                {list.name}
+                <span class="truncate">{list.name}</span>
               </button>
             </Show>
           </li>

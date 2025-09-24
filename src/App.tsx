@@ -15,14 +15,14 @@ const App: Component = () => {
   return (
     <div class="drawer">
       <input id="navi-drawer" type="checkbox" class="drawer-toggle" aria-label="Navigation drawer toggle" />
-      <div class="drawer-content">
+      <main class="drawer-content">
 
         <Navi onClickNavi={openDrawer} store={store} actions={actions} />
         <Todos store={store} actions={actions} />
-      </div>
-      <Show when={drawerOpen}>
-        <DrawerSide isOpen={drawerOpen} onClose={closeDrawer} store={store} actions={actions} />
-      </Show>
+      </main>
+
+      <DrawerSide isOpen={drawerOpen} onClose={closeDrawer} store={store} actions={actions} />
+
     </div >
   );
 };

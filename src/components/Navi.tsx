@@ -15,7 +15,7 @@ const Navi: Component<Props> = (props) => {
   };
 
   return (
-    <nav class="navbar bg-secondary-content border-transparent border-b-primary border-2 shadow-sm mb-2 sticky top-0 z-10 min-h-24">
+    <nav class="navbar bg-secondary-content border-transparent border-b-primary border-2 shadow-sm mb-2 sticky top-0 z-10 min-h-24 gap-1">
       <ListSelector store={props.store} actions={props.actions} />
       <div class="flex-1"></div>
       <div class="flex-none pe-4">

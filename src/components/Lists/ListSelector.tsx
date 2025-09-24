@@ -5,11 +5,11 @@ const ListSelector: Component<StoreProps> = (props) => {
 
 
   return (
-    <label class="select select-primary  ">
+    <label class="select select-primary  max-md:w-80">
       <span class="label">Selected list</span>
       <select
         id="list-select"
-        class="select select-neutral"
+        class="select select-neutral max-md:maxw-half"
         value={props.store.selectedListId ?? ""}
         onInput={e => props.actions.selectList(e.currentTarget.value)}
       >
