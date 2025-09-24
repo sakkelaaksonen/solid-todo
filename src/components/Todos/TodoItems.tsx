@@ -44,8 +44,9 @@ const TodoItems: Component<TodoItemsProps> = (props) => {
             )}</For>
           </select >
         </label >
-        <button data-testId={`delete-task-button-${task.id}`}
-          class="btn border-neutral hover:btn-warning focus:btn-warning join-item"
+
+        <button
+          class="btn max-md:btn-square border-neutral hover:btn-warning focus:btn-warning"
           onClick={() => props.actions.deleteTask(props.actions.getListIdForTask(task.id), task.id)}
           aria-label="Remove task"
         >
