@@ -9,7 +9,11 @@ const App: Component = () => {
   const [drawerOpen, setDrawerOpen] = createSignal(false);
   const [store, actions] = useTodoStore();
 
-  const openDrawer = () => setDrawerOpen(true);
+  const openDrawer = () => {
+    setTimeout(() => {
+      setDrawerOpen(true)
+    }, 300);
+  };
   const closeDrawer = () => setDrawerOpen(false);
 
   return (

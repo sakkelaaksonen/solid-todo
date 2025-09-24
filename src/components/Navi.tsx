@@ -21,13 +21,13 @@ const Navi: Component<Props> = (props) => {
       <div class="flex-none pe-4">
         <button
           title="Manage Todo Lists"
-          class="btn max-md:btn-square btn-primary"
+          class="btn max-sm:btn-square btn-primary"
           aria-label="Manage Todo Lists" /* Adds an accessible label */
           onClick={handleDrawerToggle}
         >
 
           <IconBars />
-          <span class="hidden md:inline">Manage Todo Lists</span>
+          <span class="hidden sm:inline">Manage Todo Lists</span>
         </button>
       </div>
 
