@@ -2,6 +2,7 @@ import { vi } from "vitest";
 import type { TaskStatus, StoreProps, StoreActions, TodoStore, TodoList } from "./store/store.ts";
 import { createStore } from "solid-js/store";
 
+//TODO this needs a rework. Just a quick store setup for basic testing.
 
 const mockActions: StoreActions = {
   currentList: vi.fn(() => ({
@@ -53,6 +54,14 @@ const mockStore: TodoStore = {
   ],
   selectedListId: "list-1",
 };
+
+
+export const getNewMockStore = () => {
+  return {
+    store: mockStore,
+    actions: mockActions,
+  };
+}
 
 export const storeSetup: StoreProps = {
   store: mockStore,
