@@ -178,12 +178,13 @@ const EditableListTitle: Component<StoreProps> = (props) => {
             <strong>{props.actions.currentList().name}</strong>?
           </p>
           <div class="modal-action justify-center">
-            <button class="btn btn-error" onClick={confirmRemoveList}>
-              Confirm
-            </button>
             <button class="btn" onClick={closeModal}>
               Cancel
             </button>
+            <button class="btn btn-error" onClick={confirmRemoveList}>
+              Confirm
+            </button>
+
           </div>
         </Modal>
       </Show >

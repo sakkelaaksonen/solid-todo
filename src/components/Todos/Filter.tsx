@@ -77,7 +77,7 @@ const Filter: Component<Props> = (props) => {
             type="button"
             disabled={doneTaskCount() === 0}
             onClick={openModal}
-            class="btn btn-neutral" >Clear done</button>
+            class="btn btn-neutral focus:border-primary focus:outline-primary hover:btn-warning focus:hover:border-transparent focus:hover:outline-warning" >Clear done</button>
         </div >
       </form >
       {/* Modal Confirmation */}
@@ -88,19 +88,20 @@ const Filter: Component<Props> = (props) => {
         >
           <h3 class="font-bold text-lg">Confirm Clear</h3>
           <p>Are you sure you want to clear all done tasks?</p>
-          <div class="modal-action">
-            <button
-              class="btn btn-warning"
-              onClick={confirmClearAllDone}
-            >
-              Yes, Clear
-            </button>
+          <div class="modal-action justify-center">
             <button
               class="btn"
               onClick={closeModal}
             >
               Cancel
             </button>
+            <button
+              class="btn btn-warning"
+              onClick={confirmClearAllDone}
+            >
+              Yes, Clear
+            </button>
+
           </div >
         </Modal>
       </Show >
