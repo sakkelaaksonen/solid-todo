@@ -2,7 +2,6 @@ import { type Component } from "solid-js";
 import { type StoreProps, TaskStatusText } from "../../store/store.ts";
 import type { Task, TaskStatus } from "../../store/store.ts";
 
-
 type Props = Pick<StoreProps, 'actions'> & {
   task: Task;
   status: TaskStatus;

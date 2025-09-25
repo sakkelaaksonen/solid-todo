@@ -3,6 +3,7 @@ import type { TaskStatus, StoreProps, StoreActions, TodoStore, TodoList } from "
 import { createStore } from "solid-js/store";
 
 //TODO this needs a rework. Just a quick store setup for basic testing.
+// Tests files should use createMockStore for consistent store updates.
 
 const mockActions: StoreActions = {
   currentList: vi.fn(() => ({
