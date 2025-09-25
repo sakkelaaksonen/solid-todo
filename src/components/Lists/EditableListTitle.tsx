@@ -122,9 +122,9 @@ const EditableListTitle: Component<StoreProps> = (props) => {
               value={editName()}
               onInput={(e) => setEditName(e.currentTarget.value)}
               readonly={!editing()}
-              // onBlur={() => {
-              //   saveListName();
-              // }}
+              onBlur={() => {
+                saveListName();
+              }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   saveListName();
