@@ -56,6 +56,10 @@ use for render controlling and to test in the scope of the excersise.
 
 While DaisyUI solves some of the Tailwind bloat, most of the components would benefit from having their own classes in organized in CSS layers where custom code and tailwind functions and utilities can be worked together to further optimize the network load and render times.
 
+### Architecture
+
+A typed error system and store operations wrapped in hooks would bring more scalablility and improve handling and testing. Common UI components could be componentized further. For this scale, I felt these were an overkill with no actual benefits beyond it's own sake.
+
 ### Testing
 
 All components have satisfactory test coverage, considering the scope. More work might be done on corner case behaviour testing and mock data if the app becomes more complex.
