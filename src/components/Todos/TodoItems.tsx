@@ -24,13 +24,13 @@ const TodoItems: Component<TodoItemsProps> = (props) => {
             />
           </label>
 
-          <span class="join border-neutral rounded-box hidden md:flex">
+          <span class="join border-neutral rounded-box hidden sm:flex">
             <TodoStatusInput actions={props.actions} task={task} status="todo" id={`todo-${task.id}`} />
             <TodoStatusInput actions={props.actions} task={task} status="doing" id={`doing-${task.id}`} />
             <TodoStatusInput actions={props.actions} task={task} status="done" id={`done-${task.id}`} />
           </span>
 
-          <label class="select select-primary select-sm md:hidden w-24" aria-label="Change task status">
+          <label class="select select-primary select-sm sm:hidden w-24" aria-label="Change task status">
             <select
               class="select select-neutral select-sm"
               value={task.status}
