@@ -11,7 +11,7 @@ const TodoItems: Component<TodoItemsProps> = (props) => {
   return (
     <>
       <ul class="list bg-primary-content rounded-box ">
-        <For each={[...props.filteredTasks].reverse()}>{task => (<li class="list-row flex items-center gap-2 p-2">
+        <For each={[...props.filteredTasks].reverse()}>{task => (<li class="border-transparent border list-row flex items-center gap-2 p-2 hover:border-primary hover:border">
           <label for={`edit-${task.id}`} class="flex-grow">
             <input
               name={`edit-${task.id}`}
